@@ -11,6 +11,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Link, useNavigate } from "react-router"
 import { useState } from "react"
+import { authClient } from "@/lib/auth-client"
+
 import { z } from "zod"
 
 const loginSchema = z.object({
@@ -41,7 +43,7 @@ export function LoginForm({
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const result = loginSchema.safeParse(formData)
     if (!result.success) {
@@ -56,9 +58,17 @@ export function LoginForm({
       return
     }
     setErrors({})
-    const mockName = result.data.email.split("@")[0]
-    localStorage.setItem("user", JSON.stringify({ name: mockName, email: result.data.email }))
-    navigate("/")
+
+    const { data, error } = await authClient.signIn.email({
+      email: result.data.email,
+      password: result.data.password,
+    });
+
+    if (error) {
+      setErrors({ email: error.message || "Invalid credentials" })
+    } else {
+      navigate("/")
+    }
   }
   return (
     <form className={cn("flex flex-col gap-6", className)} onSubmit={handleSubmit} {...props}>

@@ -1,6 +1,9 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+// Add this import at the top:
+import { authClient } from "@/lib/auth-client";
+
 import {
   Field,
   FieldDescription,
@@ -52,7 +55,7 @@ export function SignupForm({
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const result = signupSchema.safeParse(formData)
     if (!result.success) {
@@ -67,8 +70,18 @@ export function SignupForm({
       return
     }
     setErrors({})
-    localStorage.setItem("user", JSON.stringify({ name: result.data.name, email: result.data.email }))
-    navigate("/")
+
+    const { data, error } = await authClient.signUp.email({
+      email: result.data.email,
+      password: result.data.password,
+      name: result.data.name,
+    });
+
+    if (error) {
+      setErrors({ email: error.message || "Failed to create account" })
+    } else {
+      navigate("/")
+    }
   }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

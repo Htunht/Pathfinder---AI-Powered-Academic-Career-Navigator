@@ -2,16 +2,17 @@ import { useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router";
 import { GraduationCap, Compass, Briefcase, BookOpen, ClipboardList, Menu, X, ArrowRight, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
+import { authClient } from "@/lib/auth-client";
+
 
 export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<{ name: string; email: string } | null>(() => {
-    const saved = localStorage.getItem("user");
-    return saved ? JSON.parse(saved) : null;
-  });
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
 
   const navItems = [
     ...(user ? [{ name: "Major Test", path: "/major-test", icon: ClipboardList }] : []),
@@ -87,9 +88,8 @@ export default function Layout() {
                         <p className="text-muted-foreground truncate">{user.email}</p>
                       </div>
                       <button
-                        onClick={() => {
-                          localStorage.removeItem("user");
-                          setUser(null);
+                        onClick={async () => {
+                          await authClient.signOut();
                           setProfileDropdownOpen(false);
                           navigate("/");
                         }}
@@ -164,9 +164,8 @@ export default function Layout() {
                   </Link>
                   <Button
                     variant="ghost"
-                    onClick={() => {
-                      localStorage.removeItem("user");
-                      setUser(null);
+                    onClick={async () => {
+                      await authClient.signOut();
                       setMobileMenuOpen(false);
                       navigate("/");
                     }}
