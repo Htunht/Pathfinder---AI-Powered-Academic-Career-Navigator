@@ -217,7 +217,7 @@ export default function Career() {
       {/* Header section */}
       <div className="flex flex-col gap-2 md:gap-4 md:flex-row md:items-center justify-between">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-primary bg-clip-text text-transparent">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tighter text-foreground">
             Career Pathfinder
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -233,7 +233,7 @@ export default function Career() {
             placeholder="Search careers..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-10 pl-9 pr-4 rounded-xl border border-border bg-background text-sm placeholder:text-muted-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+            className="w-full h-10 pl-9 pr-4 rounded-none border border-border bg-background text-sm placeholder:text-muted-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-xs"
           />
         </div>
       </div>
@@ -250,7 +250,7 @@ export default function Career() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-full border transition-all whitespace-nowrap ${
+                className={`px-3 py-1.5 text-xs font-semibold rounded-none border transition-all whitespace-nowrap cursor-pointer ${
                   selectedCategory === cat
                     ? "bg-primary border-primary text-primary-foreground"
                     : "border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -270,24 +270,24 @@ export default function Career() {
                   <div
                     key={c.id}
                     onClick={() => setActiveCareer(c)}
-                    className={`p-4 rounded-xl border cursor-pointer transition-all duration-300 flex flex-col gap-3 group relative ${
+                    className={`p-4 rounded-none border cursor-pointer transition-all duration-200 flex flex-col gap-3 group relative ${
                       activeCareer.id === c.id
-                        ? "border-primary bg-primary/[0.03] dark:bg-primary/[0.05]"
-                        : "border-border hover:border-border-hover hover:bg-muted/10"
+                        ? "border-foreground bg-primary/[0.03] dark:bg-primary/[0.05] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,1)]"
+                        : "border-border hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] hover:border-foreground hover:bg-muted/10"
                     }`}
                   >
                     <div className="flex justify-between items-start">
                       <h3 className="font-bold text-sm text-foreground">{c.title}</h3>
-                      <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full border ${styles.bg} ${styles.text}`}>
+                      <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-none border ${styles.bg} ${styles.text}`}>
                         {c.category}
                       </span>
                     </div>
                     
                     {/* Stats row */}
-                    <div className="grid grid-cols-2 gap-2 mt-auto pt-2 border-t border-border/30 text-[11px] font-medium text-muted-foreground">
+                    <div className="grid grid-cols-2 gap-2 mt-auto pt-2 border-t border-border/30 text-[11px] font-semibold text-muted-foreground font-mono">
                       <div className="flex items-center gap-1">
                         <DollarSign className="size-3 text-emerald-600 dark:text-emerald-400" />
-                        <span>${c.salary.toLocaleString()}/yr</span>
+                        <span className="text-foreground">${c.salary.toLocaleString()}/yr</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <TrendingUp className="size-3 text-primary" />
@@ -299,19 +299,19 @@ export default function Career() {
               })}
             </div>
           ) : (
-            <div className="py-12 text-center text-sm text-muted-foreground">
+            <div className="py-12 text-center text-sm text-muted-foreground border border-dashed border-border rounded-none">
               No careers match your search criteria.
             </div>
           )}
 
           {/* Interactive CSS Bar Chart */}
-          <div className="border border-border/80 bg-muted/20 rounded-xl p-5 mt-2 flex flex-col gap-4">
+          <div className="border border-border/80 bg-muted/10 rounded-none p-5 mt-2 flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <BarChart3 className="size-4.5 text-primary" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-muted-foreground">Annual Salary Comparison</h3>
               </div>
-              <span className="text-[10px] text-muted-foreground font-medium">*Median values</span>
+              <span className="text-[10px] text-muted-foreground font-mono font-medium">*Median values</span>
             </div>
 
             <div className="space-y-3.5">
@@ -326,16 +326,16 @@ export default function Career() {
                   </span>
                   
                   {/* Bar */}
-                  <div className="flex-1 h-3.5 bg-muted rounded-full overflow-hidden relative border border-border/20">
+                  <div className="flex-1 h-3.5 bg-muted/40 rounded-none overflow-hidden relative border border-border">
                     <div
-                      className={`h-full rounded-full bg-gradient-to-r from-primary/80 to-primary transition-all duration-500 ${
-                        activeCareer.id === c.id ? "opacity-100 ring-2 ring-primary/20" : "opacity-50 group-hover:opacity-75"
+                      className={`h-full rounded-none bg-primary transition-all duration-500 ${
+                        activeCareer.id === c.id ? "opacity-100 border-r-2 border-foreground" : "opacity-50 group-hover:opacity-75"
                       }`}
                       style={{ width: `${(c.salary / 135000) * 100}%` }}
                     />
                   </div>
 
-                  <span className="w-14 text-right text-xs font-bold text-foreground">
+                  <span className="w-14 text-right text-xs font-mono font-bold text-foreground">
                     ${Math.round(c.salary / 1000)}k
                   </span>
                 </div>
@@ -346,28 +346,28 @@ export default function Career() {
 
         {/* Right 1 Column: Career Detail Specifications */}
         {activeCareer && (
-          <div className="bg-card border border-border rounded-2xl p-6 flex flex-col gap-6 shadow-sm relative sticky top-24 self-start animate-in fade-in duration-300">
+          <div className="bg-card border-2 border-foreground rounded-none p-6 flex flex-col gap-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] relative sticky top-24 self-start animate-in fade-in duration-300">
             {(() => {
               const styles = getCareerCategoryStyles(activeCareer.category);
               return (
                 <>
                   <div className="space-y-1">
-                    <span className={`text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md border inline-block ${styles.bg} ${styles.text}`}>
+                    <span className={`text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-none border inline-block ${styles.bg} ${styles.text}`}>
                       {activeCareer.category} Profile
                     </span>
                     <h2 className="text-xl font-bold text-foreground mt-2">{activeCareer.title}</h2>
                     <p className="text-xs text-muted-foreground leading-relaxed">{activeCareer.description}</p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 border-y border-border/60 py-4 text-center">
+                  <div className="grid grid-cols-2 gap-4 border-y border-border/60 py-4 text-center font-mono">
                     <div>
-                      <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider block">Median Salary</span>
+                      <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider block font-sans">Median Salary</span>
                       <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 block">
                         ${activeCareer.salary.toLocaleString()}/yr
                       </span>
                     </div>
                     <div>
-                      <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider block">Job Outlook</span>
+                      <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider block font-sans">Job Outlook</span>
                       <span className="text-base font-extrabold text-foreground mt-1 block">
                         +{activeCareer.growth}% (10-yr)
                       </span>
@@ -381,7 +381,7 @@ export default function Career() {
                         <BookOpen className="size-3.5 text-primary" />
                         <span>Recommended Major</span>
                       </h4>
-                      <p className="font-semibold text-foreground bg-muted/50 p-2.5 rounded-lg border border-border/30">
+                      <p className="font-semibold text-foreground bg-muted/50 p-2.5 rounded-none border border-border/30">
                         {activeCareer.recommendedMajor}
                       </p>
                     </div>
@@ -393,7 +393,7 @@ export default function Career() {
                       </h4>
                       <div className="flex flex-wrap gap-1.5">
                         {activeCareer.skills.map((skill, idx) => (
-                          <span key={idx} className="bg-muted px-2 py-1 rounded-md border border-border/50 text-[10px] font-semibold text-foreground">
+                          <span key={idx} className="bg-muted px-2 py-1 rounded-none border border-border/50 text-[10px] font-semibold text-foreground">
                             {skill}
                           </span>
                         ))}

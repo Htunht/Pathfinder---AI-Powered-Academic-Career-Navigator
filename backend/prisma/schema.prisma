@@ -23,6 +23,10 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  englishMark   Int?
+  mathMark      Int?
+  physicsMark   Int?
+  chemistryMark Int?
 
   @@map("user")
 }

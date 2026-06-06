@@ -2,6 +2,7 @@ import express from "express";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth";
 import cors from "cors";
+import prisma from "./lib/prisma";
 
 const app = express();
 
@@ -30,6 +31,89 @@ app.use((req, res, next) => {
 // 5. Health check
 app.get("/", (req, res) => {
   res.json({ status: "ok", message: "University Management API" });
+});
+
+// Helper to get session from Express request headers in Better-Auth
+const getBetterAuthSession = async (req: express.Request) => {
+  const headers = new Headers();
+  for (const [key, value] of Object.entries(req.headers)) {
+    if (value) {
+      if (Array.isArray(value)) {
+        value.forEach(v => headers.append(key, v));
+      } else {
+        headers.set(key, value);
+      }
+    }
+  }
+  return auth.api.getSession({ headers });
+};
+
+// GET user matriculation marks
+app.get("/api/user/marks", async (req, res) => {
+  try {
+    const session = await getBetterAuthSession(req);
+    if (!session || !session.user) {
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
+
+    const userId = session.user.id;
+    const dbUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        englishMark: true,
+        mathMark: true,
+        physicsMark: true,
+        chemistryMark: true,
+      },
+    });
+
+    if (!dbUser) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
+
+    res.json({
+      marks: {
+        english: dbUser.englishMark,
+        math: dbUser.mathMark,
+        physics: dbUser.physicsMark,
+        chemistry: dbUser.chemistryMark,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch marks:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// POST user matriculation marks
+app.post("/api/user/marks", async (req, res) => {
+  try {
+    const session = await getBetterAuthSession(req);
+    if (!session || !session.user) {
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
+
+    const { english, math, physics, chemistry } = req.body;
+    const userId = session.user.id;
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        englishMark: english !== undefined && english !== null ? english : null,
+        mathMark: math !== undefined && math !== null ? math : null,
+        physicsMark: physics !== undefined && physics !== null ? physics : null,
+        chemistryMark: chemistry !== undefined && chemistry !== null ? chemistry : null,
+      },
+    });
+
+    res.json({ status: "success" });
+  } catch (error) {
+    console.error("Failed to save marks:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // 6. 404 fallback

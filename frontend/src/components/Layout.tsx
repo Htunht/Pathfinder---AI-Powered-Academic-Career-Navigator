@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router";
-import { GraduationCap, Compass, Briefcase, BookOpen, ClipboardList, Menu, X, ArrowRight, LogOut } from "lucide-react";
+import { GraduationCap, Compass, Briefcase, BookOpen, ClipboardList, Menu, X, ArrowRight, LogOut, Sun, Moon } from "lucide-react";
 import { Button } from "./ui/button";
 import { authClient } from "@/lib/auth-client";
 
@@ -12,6 +12,29 @@ export default function Layout() {
 
   const { data: session } = authClient.useSession();
   const user = session?.user;
+
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("theme");
+      if (saved) return saved;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    return "light";
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
 
   const navItems = [
@@ -28,9 +51,9 @@ export default function Layout() {
         <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-primary/60 text-primary-foreground shadow-sm transition-transform duration-300 group-hover:scale-105">
+            <div className="relative flex items-center justify-center w-9 h-9 rounded-none border border-primary bg-gradient-to-tr from-primary to-primary/60 text-primary-foreground transition-transform duration-300 group-hover:scale-105">
               <Compass className="size-5 transition-transform duration-500 group-hover:rotate-45" />
-              <div className="absolute -inset-0.5 bg-gradient-to-tr from-primary to-primary/30 rounded-xl blur-xs opacity-0 group-hover:opacity-60 transition-opacity duration-300 -z-10" />
+              <div className="absolute -inset-0.5 bg-gradient-to-tr from-primary to-primary/30 rounded-none blur-xs opacity-0 group-hover:opacity-60 transition-opacity duration-300 -z-10" />
             </div>
             <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-foreground/75 bg-clip-text text-transparent group-hover:opacity-90 transition-opacity">
               Pathfinder
@@ -44,9 +67,9 @@ export default function Layout() {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `relative flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 select-none ${
+                  `relative flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-none transition-all duration-300 select-none ${
                     isActive
-                      ? "text-primary bg-primary/5 dark:bg-primary/10"
+                      ? "text-primary bg-primary/5 dark:bg-primary/10 border-b-2 border-primary"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`
                 }
@@ -56,7 +79,7 @@ export default function Layout() {
                     <item.icon className={`size-4 transition-transform duration-300 ${isActive ? "scale-105 text-primary" : "opacity-80"}`} />
                     <span>{item.name}</span>
                     {isActive && (
-                      <span className="absolute bottom-1.5 left-4 right-4 h-0.5 rounded-full bg-primary animate-in fade-in zoom-in duration-300" />
+                      <span className="absolute bottom-1.5 left-4 right-4 h-0.5 bg-primary animate-in fade-in zoom-in duration-300" />
                     )}
                   </>
                 )}
@@ -66,10 +89,17 @@ export default function Layout() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-none border border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer mr-1"
+              aria-label="Toggle Theme"
+            >
+              {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+            </button>
             {user ? (
               <div className="flex items-center gap-4 relative">
                 <Link to="/major-test">
-                  <Button size="sm" className="gap-1 bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 font-semibold">
+                  <Button size="sm" className="gap-1 bg-primary text-primary-foreground hover:bg-primary/90 rounded-none transition-all duration-300 font-semibold">
                     <span>Start Quiz</span>
                     <ArrowRight className="size-3.5 group-hover/button:translate-x-0.5 transition-transform" />
                   </Button>
@@ -77,12 +107,12 @@ export default function Layout() {
                 <div className="relative">
                   <button
                     onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                    className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-tr from-primary/20 to-primary/10 border border-primary/20 hover:border-primary/40 text-primary font-bold text-sm cursor-pointer select-none transition-all duration-300"
+                    className="flex items-center justify-center w-8 h-8 rounded-none bg-gradient-to-tr from-primary/20 to-primary/10 border border-primary/20 hover:border-primary/45 text-primary font-bold text-sm cursor-pointer select-none transition-all duration-300"
                   >
                     {user.name.charAt(0).toUpperCase()}
                   </button>
                   {profileDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 rounded-xl border border-border bg-background p-2 shadow-md animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="absolute right-0 mt-2 w-48 rounded-none border border-border bg-background p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] animate-in fade-in slide-in-from-top-2 duration-200">
                       <div className="px-3 py-2 text-xs border-b border-border/50 mb-1">
                         <p className="font-bold text-foreground truncate">{user.name}</p>
                         <p className="text-muted-foreground truncate">{user.email}</p>
@@ -93,7 +123,7 @@ export default function Layout() {
                           setProfileDropdownOpen(false);
                           navigate("/");
                         }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 rounded-lg transition-colors cursor-pointer"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 rounded-none transition-colors cursor-pointer"
                       >
                         <LogOut className="size-4" />
                         <span>Log Out</span>
@@ -108,7 +138,7 @@ export default function Layout() {
                   Log In
                 </Link>
                 <Link to="/signup">
-                  <Button variant="outline" size="sm" className="rounded-xl border-border/80 hover:bg-muted font-semibold">
+                  <Button variant="outline" size="sm" className="rounded-none border-border/80 hover:bg-muted font-semibold">
                     Sign Up
                   </Button>
                 </Link>
@@ -137,9 +167,9 @@ export default function Layout() {
                 to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 p-3 rounded-xl text-base font-medium transition-all ${
+                  `flex items-center gap-3 p-3 rounded-none text-base font-medium transition-all ${
                     isActive
-                      ? "text-primary bg-primary/5 dark:bg-primary/10"
+                      ? "text-primary bg-primary/5 dark:bg-primary/10 border-l-2 border-primary"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   }`
                 }
@@ -150,14 +180,25 @@ export default function Layout() {
             ))}
             <hr className="border-border my-2" />
             <div className="flex flex-col gap-2 w-full">
+              <button
+                onClick={toggleTheme}
+                className="w-full flex items-center justify-between p-3 rounded-none border border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer text-sm font-semibold mb-1"
+              >
+                <span>Theme Mode</span>
+                {theme === "dark" ? (
+                  <div className="flex items-center gap-1.5 text-primary"><Sun className="size-4" /><span>Light</span></div>
+                ) : (
+                  <div className="flex items-center gap-1.5 text-primary"><Moon className="size-4" /><span>Dark</span></div>
+                )}
+              </button>
               {user ? (
                 <>
-                  <div className="px-3 py-2 border border-border/60 rounded-xl bg-muted/30 mb-2">
+                  <div className="px-3 py-2 border border-border/60 rounded-none bg-muted/30 mb-2">
                     <p className="font-bold text-foreground text-sm truncate">{user.name}</p>
                     <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                   </div>
                   <Link to="/major-test" onClick={() => setMobileMenuOpen(false)} className="w-full">
-                    <Button className="w-full justify-center gap-2 bg-primary text-primary-foreground rounded-xl py-5 font-semibold">
+                    <Button className="w-full justify-center gap-2 bg-primary text-primary-foreground rounded-none py-5 font-semibold">
                       <span>Start Quiz</span>
                       <ArrowRight className="size-4" />
                     </Button>
@@ -169,7 +210,7 @@ export default function Layout() {
                       setMobileMenuOpen(false);
                       navigate("/");
                     }}
-                    className="w-full justify-center gap-2 rounded-xl py-5 font-semibold text-destructive hover:bg-destructive/10"
+                    className="w-full justify-center gap-2 rounded-none py-5 font-semibold text-destructive hover:bg-destructive/10"
                   >
                     <LogOut className="size-4" />
                     <span>Log Out</span>
@@ -178,12 +219,12 @@ export default function Layout() {
               ) : (
                 <>
                   <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="w-full">
-                    <Button variant="ghost" className="w-full justify-center gap-2 rounded-xl py-5 font-semibold">
+                    <Button variant="ghost" className="w-full justify-center gap-2 rounded-none py-5 font-semibold">
                       Log In
                     </Button>
                   </Link>
                   <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="w-full">
-                    <Button variant="outline" className="w-full justify-center gap-2 rounded-xl py-5 font-semibold">
+                    <Button variant="outline" className="w-full justify-center gap-2 rounded-none py-5 font-semibold">
                       Sign Up
                     </Button>
                   </Link>

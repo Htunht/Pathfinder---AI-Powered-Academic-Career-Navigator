@@ -18,17 +18,14 @@ import {
   Flame,
   Pickaxe,
   Scissors,
-  Mountain,
-  Book,
-  Calculator,
-  Atom,
+  Compass,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
 
 interface MajorItem {
   id: number;
   name: string;
-  category: "Engineering" | "Architecture" | "Supporting";
+  category: "Engineering" | "Architecture";
   description: string;
   difficulty: number; // Out of 5
   duration: string;
@@ -325,130 +322,10 @@ const MAJORS: MajorItem[] = [
       "Apparel Product Developer"
     ],
     icon: Scissors,
-  },
-  {
-    id: 14,
-    name: "Geology",
-    category: "Supporting",
-    description: "Provides critical groundwork for Civil, Mining, and Petroleum engineering majors.",
-    difficulty: 3.8,
-    duration: "Supporting Curriculum",
-    courses: [
-      "Physical Geology",
-      "Structural Geology",
-      "Mineralogy",
-      "Engineering Geology"
-    ],
-    jobs: [
-      "Geotechnical Consultant",
-      "Geological Analyst",
-      "Exploration Support Specialist"
-    ],
-    icon: Mountain,
-  },
-  {
-    id: 15,
-    name: "Chemistry",
-    category: "Supporting",
-    description: "Foundation for Chemical, Metallurgical, and Textile engineering programs.",
-    difficulty: 3.9,
-    duration: "Supporting Curriculum",
-    courses: [
-      "General Chemistry",
-      "Organic Chemistry",
-      "Physical Chemistry",
-      "Inorganic Chemistry"
-    ],
-    jobs: [
-      "Chemical Lab Analyst",
-      "Quality Assurance Specialist",
-      "Process Safety Technician"
-    ],
-    icon: FlaskConical,
-  },
-  {
-    id: 16,
-    name: "English",
-    category: "Supporting",
-    description: "Technical report writing, presentation skills, and professional communication.",
-    difficulty: 3.0,
-    duration: "Supporting Curriculum",
-    courses: [
-      "Technical English",
-      "Professional Communication",
-      "Report Writing",
-      "Presentation Skills"
-    ],
-    jobs: [
-      "Technical Writer",
-      "Communications Coordinator",
-      "Professional Presenter"
-    ],
-    icon: Book,
-  },
-  {
-    id: 17,
-    name: "Mathematics",
-    category: "Supporting",
-    description: "The core computational foundation for all engineering disciplines.",
-    difficulty: 4.3,
-    duration: "Supporting Curriculum",
-    courses: [
-      "Calculus I & II",
-      "Linear Algebra",
-      "Differential Equations",
-      "Numerical Methods"
-    ],
-    jobs: [
-      "Data Analyst",
-      "Quantitative Analyst",
-      "Computational Modeler"
-    ],
-    icon: Calculator,
-  },
-  {
-    id: 18,
-    name: "Myanmar",
-    category: "Supporting",
-    description: "Professional correspondence, national cultural studies, and ethics.",
-    difficulty: 2.8,
-    duration: "Supporting Curriculum",
-    courses: [
-      "Professional Myanmar Language",
-      "National Cultural Studies",
-      "Professional Ethics",
-      "Office Correspondence"
-    ],
-    jobs: [
-      "Public Relations Assistant",
-      "Administrative Coordinator",
-      "Cultural Outreach Liaison"
-    ],
-    icon: Book,
-  },
-  {
-    id: 19,
-    name: "Physics",
-    category: "Supporting",
-    description: "Fundamental physical principles applied in Electrical, Mechanical, and Electronic tracks.",
-    difficulty: 4.2,
-    duration: "Supporting Curriculum",
-    courses: [
-      "Classical Mechanics",
-      "Electromagnetism",
-      "Thermodynamics & Waves",
-      "Applied Physics Laboratory"
-    ],
-    jobs: [
-      "Lab Assistant",
-      "Technical Consultant",
-      "Research Support Specialist"
-    ],
-    icon: Atom,
   }
 ];
 
-const getCategoryStyles = (category: "Engineering" | "Architecture" | "Supporting") => {
+const getCategoryStyles = (category: "Engineering" | "Architecture") => {
   switch (category) {
     case "Engineering":
       return {
@@ -464,13 +341,6 @@ const getCategoryStyles = (category: "Engineering" | "Architecture" | "Supportin
         iconBg: "bg-purple-500/5 dark:bg-purple-500/10 border-purple-500/10 text-purple-600 dark:text-purple-400",
         iconBorder: "border-purple-500/10"
       };
-    case "Supporting":
-      return {
-        bg: "bg-emerald-500/10 dark:bg-emerald-500/20 border-emerald-500/20 dark:border-emerald-500/30",
-        text: "text-emerald-600 dark:text-emerald-400",
-        iconBg: "bg-emerald-500/5 dark:bg-emerald-500/10 border-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-        iconBorder: "border-emerald-500/10"
-      };
     default:
       return {
         bg: "bg-muted border-border/30",
@@ -481,18 +351,54 @@ const getCategoryStyles = (category: "Engineering" | "Architecture" | "Supportin
   }
 };
 
+const getCategoryColorStyles = (color: string, isActive: boolean) => {
+  if (isActive) {
+    switch (color) {
+      case "blue":
+        return "bg-blue-500/10 border-blue-500/50 dark:border-blue-400/50 text-blue-600 dark:text-blue-400 ring-2 ring-blue-500/10";
+      case "purple":
+        return "bg-purple-500/10 border-purple-500/50 dark:border-purple-400/50 text-purple-600 dark:text-purple-400 ring-2 ring-purple-500/10";
+      case "emerald":
+        return "bg-emerald-500/10 border-emerald-500/50 dark:border-emerald-400/50 text-emerald-600 dark:text-emerald-400 ring-2 ring-emerald-500/10";
+      default:
+        return "bg-primary/10 border-primary text-primary ring-2 ring-primary/10";
+    }
+  } else {
+    return "bg-card border-border/80 hover:bg-muted/30 text-muted-foreground hover:text-foreground hover:border-border-hover";
+  }
+};
+
+const getDifficultyDetails = (difficulty: number) => {
+  if (difficulty >= 4.5) {
+    return {
+      label: "Rigorous",
+      color: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20 dark:border-rose-500/30",
+    };
+  } else if (difficulty >= 3.8) {
+    return {
+      label: "Moderate",
+      color: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 dark:border-amber-500/30",
+    };
+  } else {
+    return {
+      label: "Standard",
+      color: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 dark:border-emerald-500/30",
+    };
+  }
+};
+
 export default function Major() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedMajor, setSelectedMajor] = useState<MajorItem | null>(null);
 
-  const categories = ["All", "Engineering", "Architecture", "Supporting"];
-
   const filteredMajors = useMemo(() => {
     return MAJORS.filter((major) => {
       const matchesSearch =
         major.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        major.description.toLowerCase().includes(searchTerm.toLowerCase());
+        major.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        major.courses.some(c => c.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        major.jobs.some(j => j.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesCategory =
         selectedCategory === "All" || major.category === selectedCategory;
       return matchesSearch && matchesCategory;
@@ -500,116 +406,138 @@ export default function Major() {
   }, [searchTerm, selectedCategory]);
 
   return (
-    <div className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 py-8 flex flex-col gap-8">
-      {/* Header section */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-primary bg-clip-text text-transparent">
+    <div className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 py-8 flex flex-col gap-6 md:gap-8">
+      
+      {/* Header section with gradient background */}
+      <div className="relative rounded-none overflow-hidden bg-card border border-border p-6 md:p-8 flex flex-col gap-4">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="space-y-1.5 max-w-2xl">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tighter text-foreground">
             Academic Majors & Departments
           </h1>
-          <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
-            Overview of academic departments and majors, compiled in alignment with the Myanmar Ministry of Science and Technology standards.
+          <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+            Overview of academic departments and majors. Select a category below or use search to find courses and careers.
           </p>
         </div>
 
-        {/* Search Input */}
-        <div className="relative w-full md:w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search majors or courses..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-10 pl-9 pr-4 rounded-xl border border-border bg-background text-sm placeholder:text-muted-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-          />
-        </div>
-      </div>
-
-      {/* Program General Information Banner */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-muted/20 border border-border/80 p-5 rounded-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
-        
-        <div className="flex items-start gap-4">
-          <div className="p-3 bg-primary/10 rounded-xl text-primary shrink-0">
-            <Clock className="size-5" />
+        {/* Integrated Search and Info */}
+        <div className="flex flex-col sm:flex-row gap-3 items-center w-full mt-1">
+          <div className="relative w-full sm:flex-1">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search by major, courses, or jobs..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full h-10 pl-10 pr-10 rounded-none border border-border bg-background text-sm placeholder:text-muted-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-xs"
+            />
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm("")}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
+              >
+                <X className="size-4" />
+              </button>
+            )}
           </div>
-          <div className="space-y-1">
-            <h3 className="font-bold text-sm text-foreground">Estimated Program Duration</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              5 Years (Undergraduate Bachelor's Degree) for all Engineering and Architecture majors. Supporting courses provide required initial foundation.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-4">
-          <div className="p-3 bg-primary/10 rounded-xl text-primary shrink-0">
-            <BookOpen className="size-5" />
-          </div>
-          <div className="space-y-1">
-            <h3 className="font-bold text-sm text-foreground">Academic System & Training</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Semester-based schedule with intensive practical workshop and field training, culminating in a comprehensive final-year capstone project.
-            </p>
+          
+          <div className="flex items-center gap-2 text-xs text-muted-foreground bg-background/50 border border-border px-3.5 h-10 rounded-none shrink-0 w-full sm:w-auto justify-center font-mono">
+            <Clock className="size-4 text-primary" />
+            <span>5-Year Degree Programs</span>
           </div>
         </div>
       </div>
 
-      {/* Category Tabs */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-border scrollbar-none">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-1.5 text-xs font-semibold rounded-full border transition-all whitespace-nowrap ${
-              selectedCategory === cat
-                ? "bg-primary border-primary text-primary-foreground shadow-xs"
-                : "border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
+      {/* Visual Category Selection Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {[
+          { id: "All", name: "All Majors", desc: "Browse everything", count: MAJORS.length, color: "slate", icon: Compass },
+          { id: "Engineering", name: "Engineering", desc: "Design & build", count: MAJORS.filter(m => m.category === "Engineering").length, color: "blue", icon: Cpu },
+          { id: "Architecture", name: "Architecture", desc: "Design spaces", count: MAJORS.filter(m => m.category === "Architecture").length, color: "purple", icon: Home },
+        ].map((cat) => {
+          const isActive = selectedCategory === cat.id;
+          const colorStyles = getCategoryColorStyles(cat.color, isActive);
+          return (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`p-4 rounded-none border text-left flex flex-col justify-between gap-4 transition-all duration-200 cursor-pointer select-none ${colorStyles}`}
+            >
+              <div className="flex items-center justify-between w-full">
+                <div className={`p-2 rounded-none bg-background border border-border/40 shadow-xs text-foreground ${isActive ? "text-primary border-primary/20" : ""}`}>
+                  <cat.icon className="size-4.5" />
+                </div>
+                <span className="text-[10px] font-mono font-bold bg-background/60 border border-border/30 px-2 py-0.5 rounded-none text-foreground/80">
+                  {cat.count}
+                </span>
+              </div>
+              <div>
+                <h3 className="font-extrabold text-sm tracking-tight text-foreground">{cat.name}</h3>
+                <p className="text-[10px] text-muted-foreground mt-0.5 line-clamp-1">{cat.desc}</p>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* Grid List */}
       {filteredMajors.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredMajors.map((major) => {
             const styles = getCategoryStyles(major.category);
+            const difficulty = getDifficultyDetails(major.difficulty);
             return (
               <div
                 key={major.id}
                 onClick={() => setSelectedMajor(major)}
-                className="bg-card hover:bg-muted/10 border border-border/80 rounded-xl p-5 shadow-xs hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col gap-4 relative group"
+                className="bg-card hover:bg-muted/10 border border-border/80 rounded-none p-4 cursor-pointer flex flex-row sm:flex-col items-center sm:items-start gap-4 relative group hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:border-foreground transition-all duration-200"
               >
-                <div className="flex items-start justify-between">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center border group-hover:scale-105 transition-transform ${styles.iconBg} ${styles.iconBorder}`}>
-                    <major.icon className="size-5" />
+                {/* Icon Container */}
+                <div className={`w-11 h-11 rounded-none flex items-center justify-center border shrink-0 transition-all duration-300 group-hover:scale-105 ${styles.iconBg} ${styles.iconBorder}`}>
+                  <major.icon className="size-5" />
+                </div>
+
+                {/* Info Area */}
+                <div className="flex-1 min-w-0 space-y-1.5 w-full">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className={`text-[9px] font-extrabold tracking-wider uppercase px-2 py-0.5 rounded-none border ${styles.bg} ${styles.text}`}>
+                      {major.category}
+                    </span>
+                    <span className="text-[10px] text-muted-foreground font-mono font-semibold hidden sm:inline">
+                      {major.duration}
+                    </span>
                   </div>
-                  <span className={`text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full border ${styles.bg} ${styles.text}`}>
-                    {major.category}
-                  </span>
-                </div>
 
-                <div className="space-y-1.5">
-                  <h3 className="font-bold text-base text-foreground leading-tight">{major.name}</h3>
-                  <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">{major.description}</p>
-                </div>
+                  <h3 className="font-bold text-sm md:text-base text-foreground tracking-tight group-hover:text-primary transition-colors truncate">
+                    {major.name}
+                  </h3>
 
-                {/* Stats Footer */}
-                <div className="mt-auto pt-3 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground font-medium">
-                  <span className="flex items-center gap-1">
-                    <span>Difficulty:</span>
-                    <span className="text-foreground font-bold">{major.difficulty}/5</span>
-                  </span>
-                  <span>{major.duration}</span>
+                  {/* Badges / Stats (Only visible on desktop/tablet) */}
+                  <div className="hidden sm:flex items-center gap-1.5 pt-1.5 border-t border-border/40 text-[10px] text-muted-foreground font-mono font-semibold">
+                    <span>{major.duration}</span>
+                    <span>•</span>
+                    <span className={`px-1.5 py-0.5 rounded-none border ${difficulty.color} font-bold text-[9px] uppercase tracking-wider`}>
+                      {difficulty.label}
+                    </span>
+                  </div>
+
+                  {/* Mobile Stats (Visual layout on mobile) */}
+                  <div className="flex sm:hidden items-center gap-1.5 text-[10px] text-muted-foreground font-mono">
+                    <span className="font-semibold">
+                      {major.duration}
+                    </span>
+                    <span>•</span>
+                    <span className={`px-1.5 py-0.5 rounded-none border ${difficulty.color} font-bold text-[9px] uppercase tracking-wider`}>
+                      {difficulty.label}
+                    </span>
+                  </div>
                 </div>
               </div>
             );
           })}
         </div>
       ) : (
-        <div className="py-20 text-center flex flex-col items-center gap-3">
+        <div className="py-16 text-center flex flex-col items-center gap-3 border border-border/60 rounded-none bg-muted/10">
           <Info className="size-10 text-muted-foreground" />
           <h3 className="font-bold text-lg text-foreground">No Departments Found</h3>
           <p className="text-sm text-muted-foreground max-w-xs">
@@ -621,7 +549,7 @@ export default function Major() {
       {/* Detail Modal */}
       {selectedMajor && (
         <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-card border border-border rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden relative animate-in zoom-in-95 duration-200">
+          <div className="bg-card border-2 border-foreground rounded-none w-full max-w-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] overflow-hidden relative animate-in zoom-in-95 duration-200">
             {/* Modal Header */}
             {(() => {
               const styles = getCategoryStyles(selectedMajor.category);
@@ -629,19 +557,19 @@ export default function Major() {
                 <>
                   <div className="p-6 border-b border-border/60 flex items-start justify-between">
                     <div className="flex gap-3">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border ${styles.iconBg} ${styles.iconBorder}`}>
+                      <div className={`w-12 h-12 rounded-none flex items-center justify-center shrink-0 border ${styles.iconBg} ${styles.iconBorder}`}>
                         <selectedMajor.icon className="size-6" />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-foreground leading-tight">{selectedMajor.name}</h2>
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border inline-block mt-1 ${styles.bg} ${styles.text}`}>
+                        <h2 className="text-xl font-bold text-foreground leading-tight tracking-tight">{selectedMajor.name}</h2>
+                        <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-none border inline-block mt-1 ${styles.bg} ${styles.text}`}>
                           {selectedMajor.category}
                         </span>
                       </div>
                     </div>
                     <button
                       onClick={() => setSelectedMajor(null)}
-                      className="p-1.5 rounded-lg border border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-all"
+                      className="p-1.5 rounded-none border border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-all cursor-pointer"
                     >
                       <X className="size-4.5" />
                     </button>
@@ -655,7 +583,7 @@ export default function Major() {
                     </div>
 
                     {/* Stats badges */}
-                    <div className="grid grid-cols-2 gap-3 bg-muted/30 p-3.5 rounded-xl border border-border/40">
+                    <div className="grid grid-cols-2 gap-3 bg-muted/30 p-3.5 rounded-none border border-border/45 font-mono">
                       <div className="flex flex-col gap-0.5">
                         <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Est. Duration</span>
                         <span className="text-sm font-bold text-foreground">{selectedMajor.duration}</span>
@@ -690,7 +618,7 @@ export default function Major() {
                         </h4>
                         <ul className="space-y-1.5">
                           {selectedMajor.courses.map((course, idx) => (
-                            <li key={idx} className="text-xs font-medium text-foreground bg-muted/40 p-2 rounded-lg border border-border/30">
+                            <li key={idx} className="text-xs font-medium text-foreground bg-muted/40 p-2 rounded-none border border-border/30">
                               {course}
                             </li>
                           ))}
@@ -701,11 +629,11 @@ export default function Major() {
                       <div className="space-y-2">
                         <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                           <Briefcase className="size-3.5 text-primary" />
-                          <span>{selectedMajor.category === "Supporting" ? "Practical Application" : "Popular Careers"}</span>
+                          <span>Popular Careers</span>
                         </h4>
                         <ul className="space-y-1.5">
                           {selectedMajor.jobs.map((job, idx) => (
-                            <li key={idx} className="text-xs font-medium text-foreground bg-muted/40 p-2 rounded-lg border border-border/30">
+                            <li key={idx} className="text-xs font-medium text-foreground bg-muted/40 p-2 rounded-none border border-border/30">
                               {job}
                             </li>
                           ))}
@@ -719,7 +647,7 @@ export default function Major() {
 
             {/* Modal Footer */}
             <div className="p-4 border-t border-border/60 bg-muted/30 flex justify-end">
-              <Button onClick={() => setSelectedMajor(null)} className="rounded-xl px-5">
+              <Button onClick={() => setSelectedMajor(null)} className="rounded-none px-5 cursor-pointer">
                 Close Details
               </Button>
             </div>

@@ -89,7 +89,7 @@ export default function Resources() {
       {/* Header section */}
       <div className="flex flex-col gap-2 md:gap-4 md:flex-row md:items-center justify-between">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tighter text-foreground">
             Student Resources
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -105,7 +105,7 @@ export default function Resources() {
             placeholder="Search resources..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-10 pl-9 pr-4 rounded-xl border border-border bg-background text-sm placeholder:text-muted-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+            className="w-full h-10 pl-9 pr-4 rounded-none border border-border bg-background text-sm placeholder:text-muted-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-xs"
           />
         </div>
       </div>
@@ -116,7 +116,7 @@ export default function Resources() {
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-1.5 text-xs font-semibold rounded-full border transition-all whitespace-nowrap ${
+            className={`px-4 py-1.5 text-xs font-semibold rounded-none border transition-all whitespace-nowrap cursor-pointer ${
               selectedCategory === cat
                 ? "bg-primary border-primary text-primary-foreground"
                 : "border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -133,19 +133,19 @@ export default function Resources() {
           {filteredResources.map((res) => (
             <div
               key={res.id}
-              className="bg-card hover:bg-muted/10 border border-border/80 rounded-xl p-5 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col gap-4 group"
+              className="bg-card border border-border/80 rounded-none p-5 transition-all duration-200 flex flex-col gap-4 group hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:border-foreground hover:bg-muted/10"
             >
               {/* Top Row */}
               <div className="flex items-start justify-between">
-                <div className="w-10 h-10 rounded-xl bg-primary/5 dark:bg-primary/10 border border-primary/5 text-primary flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-none bg-primary/5 dark:bg-primary/10 border border-border text-primary flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-300">
                   <res.icon className="size-5" />
                 </div>
                 
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border/30">
+                  <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-none bg-muted text-muted-foreground border border-border/30">
                     {res.category}
                   </span>
-                  <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/10">
+                  <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-none bg-primary/10 text-primary border border-primary/10">
                     {res.type}
                   </span>
                 </div>
@@ -159,14 +159,14 @@ export default function Resources() {
 
               {/* Footer action */}
               <div className="mt-auto pt-4 border-t border-border/40 flex items-center justify-between">
-                <span className="text-[10px] font-semibold text-muted-foreground">
+                <span className="text-[10px] font-mono font-semibold text-muted-foreground">
                   {res.sizeOrLink}
                 </span>
 
                 <Button
                   size="sm"
                   variant="outline"
-                  className="rounded-lg gap-1 border-border/60 hover:bg-muted text-foreground transition-all cursor-pointer"
+                  className="rounded-none gap-1 border-border/60 hover:bg-muted text-foreground transition-all cursor-pointer"
                   onClick={() => alert(`Starting simulated download/navigation for "${res.title}"`)}
                 >
                   {res.type === "Web Portal" ? (
@@ -186,7 +186,7 @@ export default function Resources() {
           ))}
         </div>
       ) : (
-        <div className="py-20 text-center flex flex-col items-center gap-3">
+        <div className="py-20 text-center flex flex-col items-center gap-3 border border-dashed border-border rounded-none">
           <HelpCircle className="size-10 text-muted-foreground" />
           <h3 className="font-bold text-lg text-foreground">No Resources Found</h3>
           <p className="text-sm text-muted-foreground max-w-xs">
