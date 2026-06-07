@@ -1,37 +1,20 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-// Add this import at the top:
-import { authClient } from "@/lib/auth-client";
-
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator,
-  FieldError,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
 import { Link, useNavigate } from "react-router"
-import { Compass, Eye, EyeOff } from "lucide-react"
 import { useState } from "react"
+import { authClient } from "@/lib/auth-client"
 import { z } from "zod"
+import { Eye, EyeOff } from "lucide-react"
 
 const signupSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters." }),
+  name: z.string().min(2, { message: "အမည်သည် အနည်းဆုံး ၂ လုံး ရှိရပါမည်။" }),
+  email: z.string().email({ message: "အီးမေးလ်လိပ်စာ မှန်ကန်စွာ ထည့်သွင်းပေးပါ။" }),
+  password: z.string().min(8, { message: "စကားဝှက်သည် အနည်းဆုံး ၈ လုံး ရှိရပါမည်။" }),
   confirmPassword: z.string()
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords do not match.",
+  message: "စကားဝှက်များ ကိုက်ညီမှု မရှိပါ။",
   path: ["confirmPassword"]
 });
 
-export function SignupForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function SignupForm() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: "",
@@ -71,150 +54,187 @@ export function SignupForm({
     }
     setErrors({})
 
-    const { data, error } = await authClient.signUp.email({
+    const { error } = await authClient.signUp.email({
       email: result.data.email,
       password: result.data.password,
       name: result.data.name,
     });
 
     if (error) {
-      setErrors({ email: error.message || "Failed to create account" })
+      setErrors({ email: error.message || "အကောင့်ဖွင့်ခြင်း မအောင်မြင်ပါ။" })
     } else {
       navigate("/")
     }
   }
+
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden p-0">
-        <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8" onSubmit={handleSubmit}>
-            <FieldGroup>
-              <div className="flex flex-col items-center gap-2 text-center">
-                <Link to="/" className="flex items-center gap-2.5 group mb-2 select-none">
-                  <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-primary/60 text-primary-foreground shadow-xs transition-transform duration-300 group-hover:scale-105">
-                    <Compass className="size-5 transition-transform duration-500 group-hover:rotate-45" />
-                    <div className="absolute -inset-0.5 bg-gradient-to-tr from-primary to-primary/30 rounded-xl blur-xs opacity-0 group-hover:opacity-60 transition-opacity duration-300 -z-10" />
-                  </div>
-                  <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-foreground/75 bg-clip-text text-transparent group-hover:opacity-90 transition-opacity">
-                    Pathfinder
-                  </span>
-                </Link>
-                <h1 className="text-2xl font-bold">Create your account</h1>
-                <p className="text-sm text-balance text-muted-foreground">
-                  Enter your email below to create your account
-                </p>
-              </div>
-              <Field data-invalid={errors.name ? "true" : undefined}>
-                <FieldLabel htmlFor="name">Name</FieldLabel>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="John Doe"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-                <FieldError>{errors.name}</FieldError>
-              </Field>
-              <Field data-invalid={errors.email ? "true" : undefined}>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                <FieldError>{errors.email}</FieldError>
-              </Field>
-              <Field data-invalid={errors.password ? "true" : undefined}>
-                <FieldLabel htmlFor="password">Password</FieldLabel>
-                <div className="relative w-full">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    required
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="pr-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer focus:outline-hidden"
-                  >
-                    {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-                  </button>
-                </div>
-                {!errors.password && (
-                  <FieldDescription>
-                    Must be at least 8 characters long.
-                  </FieldDescription>
-                )}
-                <FieldError>{errors.password}</FieldError>
-              </Field>
-              <Field data-invalid={errors.confirmPassword ? "true" : undefined}>
-                <FieldLabel htmlFor="confirmPassword">
-                  Confirm Password
-                </FieldLabel>
-                <div className="relative w-full">
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
-                    required
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className="pr-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer focus:outline-hidden"
-                  >
-                    {showConfirmPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-                  </button>
-                </div>
-                <FieldError>{errors.confirmPassword}</FieldError>
-              </Field>
-              <Field>
-                <Button type="submit">Create Account</Button>
-              </Field>
-              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                Or continue with
-              </FieldSeparator>
-              <Field>
-                <Button variant="outline" type="button" className="w-full flex items-center justify-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="size-4 shrink-0">
-                    <path
-                      d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  <span>Sign up with Google</span>
-                </Button>
-              </Field>
-              <FieldDescription className="text-center">
-                Already have an account?{" "}
-                <Link to="/login" className="underline underline-offset-4">
-                  Sign in
-                </Link>
-              </FieldDescription>
-            </FieldGroup>
-          </form>
-          <div className="relative hidden bg-muted md:block">
-            <img
-              src="/signup_banner.png"
-              alt="Sign Up Banner"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            />
-          </div>
-        </CardContent>
-      </Card>
-      <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </FieldDescription>
-    </div>
+    <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <div className="flex flex-col items-center gap-1.5 text-center mb-2">
+        <h1 className="text-2xl font-black text-slate-800">🎒 အကောင့်အသစ် ဖွင့်လှစ်ပါ</h1>
+        <p className="text-sm font-bold text-slate-500">
+          အကောင့်ဖွင့်ရန် သင့်အချက်အလက်များကို အောက်တွင် ထည့်သွင်းပါ
+        </p>
+      </div>
+
+      {/* Name Field */}
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="name" className="text-sm font-black text-slate-700">
+          အမည်
+        </label>
+        <input
+          id="name"
+          type="text"
+          placeholder="John Doe"
+          required
+          value={formData.name}
+          onChange={handleChange}
+          className={`w-full h-12 px-4 rounded-2xl border-2 bg-white text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all font-bold ${
+            errors.name
+              ? "border-red-400 focus:border-red-500 shadow-[0_3px_0_#fecaca] focus:shadow-[0_3px_0_#fca5a5]"
+              : "border-slate-200 focus:border-green-500 shadow-[0_3px_0_#e2e8f0] focus:shadow-[0_3px_0_#15803d]"
+          }`}
+        />
+        {errors.name && (
+          <span className="text-xs font-bold text-red-500 mt-1">
+            ⚠️ {errors.name}
+          </span>
+        )}
+      </div>
+
+      {/* Email Field */}
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="email" className="text-sm font-black text-slate-700">
+          အီးမေးလ်
+        </label>
+        <input
+          id="email"
+          type="email"
+          placeholder="m@example.com"
+          required
+          value={formData.email}
+          onChange={handleChange}
+          className={`w-full h-12 px-4 rounded-2xl border-2 bg-white text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all font-bold ${
+            errors.email
+              ? "border-red-400 focus:border-red-500 shadow-[0_3px_0_#fecaca] focus:shadow-[0_3px_0_#fca5a5]"
+              : "border-slate-200 focus:border-green-500 shadow-[0_3px_0_#e2e8f0] focus:shadow-[0_3px_0_#15803d]"
+          }`}
+        />
+        {errors.email && (
+          <span className="text-xs font-bold text-red-500 mt-1">
+            ⚠️ {errors.email}
+          </span>
+        )}
+      </div>
+
+      {/* Password Field */}
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="password" className="text-sm font-black text-slate-700">
+          စကားဝှက်
+        </label>
+        <div className="relative w-full">
+          <input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            required
+            value={formData.password}
+            onChange={handleChange}
+            className={`w-full h-12 pl-4 pr-11 rounded-2xl border-2 bg-white text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all font-bold ${
+              errors.password
+                ? "border-red-400 focus:border-red-500 shadow-[0_3px_0_#fecaca] focus:shadow-[0_3px_0_#fca5a5]"
+                : "border-slate-200 focus:border-green-500 shadow-[0_3px_0_#e2e8f0] focus:shadow-[0_3px_0_#15803d]"
+            }`}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-4.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer focus:outline-hidden"
+          >
+            {showPassword ? <EyeOff className="size-4.5" /> : <Eye className="size-4.5" />}
+          </button>
+        </div>
+        {!errors.password && (
+          <p className="text-[11px] font-bold text-slate-400 mt-0.5">
+            အနည်းဆုံး စာလုံး ၈ လုံး ရှိရပါမည်။
+          </p>
+        )}
+        {errors.password && (
+          <span className="text-xs font-bold text-red-500 mt-1">
+            ⚠️ {errors.password}
+          </span>
+        )}
+      </div>
+
+      {/* Confirm Password Field */}
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="confirmPassword" className="text-sm font-black text-slate-700">
+          စကားဝှက်ကို ထပ်မံအတည်ပြုပါ
+        </label>
+        <div className="relative w-full">
+          <input
+            id="confirmPassword"
+            type={showConfirmPassword ? "text" : "password"}
+            required
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className={`w-full h-12 pl-4 pr-11 rounded-2xl border-2 bg-white text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all font-bold ${
+              errors.confirmPassword
+                ? "border-red-400 focus:border-red-500 shadow-[0_3px_0_#fecaca] focus:shadow-[0_3px_0_#fca5a5]"
+                : "border-slate-200 focus:border-green-500 shadow-[0_3px_0_#e2e8f0] focus:shadow-[0_3px_0_#15803d]"
+            }`}
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute right-4.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer focus:outline-hidden"
+          >
+            {showConfirmPassword ? <EyeOff className="size-4.5" /> : <Eye className="size-4.5" />}
+          </button>
+        </div>
+        {errors.confirmPassword && (
+          <span className="text-xs font-bold text-red-500 mt-1">
+            ⚠️ {errors.confirmPassword}
+          </span>
+        )}
+      </div>
+
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="w-full bg-green-500 hover:bg-green-600 text-white font-black py-3 rounded-2xl border-b-4 border-green-700 active:border-b-0 active:translate-y-[4px] shadow-[0_4px_0_#15803d] transition-all cursor-pointer text-center select-none flex items-center justify-center mt-2"
+      >
+        အကောင့်ဖွင့်ရန်
+      </button>
+
+      {/* Separator */}
+      <div className="relative flex py-2 items-center">
+        <div className="flex-grow border-t-2 border-slate-100"></div>
+        <span className="flex-shrink mx-4 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-white px-2">
+          သို့မဟုတ်
+        </span>
+        <div className="flex-grow border-t-2 border-slate-100"></div>
+      </div>
+
+      {/* Google Auth Button */}
+      <button
+        type="button"
+        className="w-full flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-600 font-black py-2.5 rounded-2xl border-2 border-slate-200 border-b-4 border-slate-300 active:border-b-2 active:translate-y-[2px] transition-all cursor-pointer shadow-[0_3px_0_#e2e8f0]"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="size-4.5 shrink-0">
+          <path
+            d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
+            fill="currentColor"
+          />
+        </svg>
+        <span>Google အကောင့်ဖြင့် အကောင့်ဖွင့်ရန်</span>
+      </button>
+
+      {/* Login Link */}
+      <p className="text-center text-sm font-bold text-slate-500 mt-2">
+        အကောင့်ရှိပြီးသားလား။{" "}
+        <Link to="/login" className="text-green-600 hover:text-green-700 underline underline-offset-4 font-black">
+          ဝင်ရန်
+        </Link>
+      </p>
+    </form>
   )
 }

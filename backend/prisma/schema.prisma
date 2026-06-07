@@ -87,3 +87,14 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+model Major {
+  id          Int    @id @default(autoincrement())
+  majorCode   String @unique
+  name        String
+  myanmarName String
+  cutoffMark  Int
+  category    String
+
+  @@map("major")
+}

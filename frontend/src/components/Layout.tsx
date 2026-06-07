@@ -1,86 +1,79 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router";
-import { GraduationCap, Compass, Briefcase, BookOpen, ClipboardList, Menu, X, ArrowRight, LogOut, Sun, Moon } from "lucide-react";
-import { Button } from "./ui/button";
+import { GraduationCap, Compass, Briefcase, BookOpen, ClipboardList, Menu, X, ArrowRight, LogOut, History } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 
 export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [historyDrawerOpen, setHistoryDrawerOpen] = useState(false);
+  const [historyList, setHistoryList] = useState<any[]>([]);
   const navigate = useNavigate();
 
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("theme");
-      if (saved) return saved;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  useEffect(() => {
+    if (historyDrawerOpen) {
+      try {
+        const existingHistoryRaw = localStorage.getItem("pathfinder_history");
+        const list = existingHistoryRaw ? JSON.parse(existingHistoryRaw) : [];
+        setHistoryList(list);
+      } catch (e) {
+        console.error("Failed to load history list:", e);
+      }
     }
-    return "light";
-  });
+  }, [historyDrawerOpen]);
 
   useEffect(() => {
     const root = window.document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
+    root.classList.remove("dark");
+    root.classList.add("light");
+    localStorage.setItem("theme", "light");
+  }, []);
 
 
   const navItems = [
-    ...(user ? [{ name: "Major Test", path: "/major-test", icon: ClipboardList }] : []),
-    { name: "Major", path: "/major", icon: GraduationCap },
-    { name: "Career", path: "/career", icon: Briefcase },
-    { name: "Resources", path: "/resources", icon: BookOpen },
+    ...(user ? [{ name: "မေဂျာ ဉာဏ်စမ်း", path: "/major-test", icon: ClipboardList }] : []),
+    { name: "မေဂျာများ", path: "/major", icon: GraduationCap },
+    { name: "အလုပ်အကိုင်", path: "/career", icon: Briefcase },
+    { name: "အရင်းအမြစ်များ", path: "/resources", icon: BookOpen },
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans transition-colors duration-300">
-      {/* Pinned Glassmorphic NavBar */}
-      <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col font-sans">
+      {/* Pinned Gamified NavBar */}
+      <header className="sticky top-0 z-50 w-full bg-white border-b-2 border-slate-100 shadow-[0_4px_0_#f1f5f9]">
         <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-none border border-primary bg-gradient-to-tr from-primary to-primary/60 text-primary-foreground transition-transform duration-300 group-hover:scale-105">
-              <Compass className="size-5 transition-transform duration-500 group-hover:rotate-45" />
-              <div className="absolute -inset-0.5 bg-gradient-to-tr from-primary to-primary/30 rounded-none blur-xs opacity-0 group-hover:opacity-60 transition-opacity duration-300 -z-10" />
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-green-500 text-white shadow-[0_3px_0_#15803d] transition-transform duration-300 group-hover:scale-105">
+              🚀
             </div>
-            <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-foreground/75 bg-clip-text text-transparent group-hover:opacity-90 transition-opacity">
+            <span className="font-black text-xl tracking-tight text-slate-800">
               Pathfinder
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-2">
             {navItems.map((item) => (
               <NavLink
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `relative flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-none transition-all duration-300 select-none ${
+                  `relative flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-xl transition-all duration-150 select-none border-2 border-transparent ${
                     isActive
-                      ? "text-primary bg-primary/5 dark:bg-primary/10 border-b-2 border-primary"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      ? "text-green-600 bg-green-50 border-green-500/20"
+                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
                   }`
                 }
               >
                 {({ isActive }) => (
                   <>
-                    <item.icon className={`size-4 transition-transform duration-300 ${isActive ? "scale-105 text-primary" : "opacity-80"}`} />
+                     <item.icon className={`size-4 transition-transform duration-300 ${isActive ? "scale-105 text-green-600" : "opacity-85"}`} />
                     <span>{item.name}</span>
-                    {isActive && (
-                      <span className="absolute bottom-1.5 left-4 right-4 h-0.5 bg-primary animate-in fade-in zoom-in duration-300" />
-                    )}
                   </>
                 )}
               </NavLink>
@@ -89,33 +82,33 @@ export default function Layout() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={toggleTheme}
-              className="p-2.5 rounded-none border border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer mr-1"
-              aria-label="Toggle Theme"
-            >
-              {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
-            </button>
             {user ? (
               <div className="flex items-center gap-4 relative">
+                <button
+                  onClick={() => setHistoryDrawerOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-2 text-sm font-bold rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 border-2 border-transparent transition-all cursor-pointer"
+                >
+                  <History className="size-4" />
+                  <span>မှတ်တမ်း</span>
+                </button>
                 <Link to="/major-test">
-                  <Button size="sm" className="gap-1 bg-primary text-primary-foreground hover:bg-primary/90 rounded-none transition-all duration-300 font-semibold">
-                    <span>Start Quiz</span>
-                    <ArrowRight className="size-3.5 group-hover/button:translate-x-0.5 transition-transform" />
-                  </Button>
+                  <button className="gap-2 bg-green-500 hover:bg-green-600 text-white font-bold border-2 border-green-600 shadow-[0_3px_0_#15803d] rounded-xl px-4 py-2 hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none transition-all duration-150 text-sm flex items-center cursor-pointer">
+                    <span>ဉာဏ်စမ်းစတင်ရန်</span>
+                    <ArrowRight className="size-3.5" />
+                  </button>
                 </Link>
                 <div className="relative">
                   <button
                     onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                    className="flex items-center justify-center w-8 h-8 rounded-none bg-gradient-to-tr from-primary/20 to-primary/10 border border-primary/20 hover:border-primary/45 text-primary font-bold text-sm cursor-pointer select-none transition-all duration-300"
+                    className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100 border-2 border-green-500 text-green-700 font-bold text-sm cursor-pointer select-none transition-all duration-300"
                   >
                     {user.name.charAt(0).toUpperCase()}
                   </button>
                   {profileDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 rounded-none border border-border bg-background p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] animate-in fade-in slide-in-from-top-2 duration-200">
-                      <div className="px-3 py-2 text-xs border-b border-border/50 mb-1">
-                        <p className="font-bold text-foreground truncate">{user.name}</p>
-                        <p className="text-muted-foreground truncate">{user.email}</p>
+                    <div className="absolute right-0 mt-2 w-48 rounded-2xl border-2 border-slate-200 bg-white p-2 shadow-[0_6px_0_#cbd5e1] animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="px-3 py-2 text-xs border-b border-slate-100 mb-1">
+                        <p className="font-bold text-slate-800 truncate">{user.name}</p>
+                        <p className="text-slate-400 truncate">{user.email}</p>
                       </div>
                       <button
                         onClick={async () => {
@@ -123,10 +116,10 @@ export default function Layout() {
                           setProfileDropdownOpen(false);
                           navigate("/");
                         }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 rounded-none transition-colors cursor-pointer"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-xl transition-colors cursor-pointer font-bold"
                       >
                         <LogOut className="size-4" />
-                        <span>Log Out</span>
+                        <span>အကောင့်မှထွက်ရန်</span>
                       </button>
                     </div>
                   )}
@@ -134,13 +127,13 @@ export default function Layout() {
               </div>
             ) : (
               <>
-                <Link to="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors mr-2">
-                  Log In
+                <Link to="/login" className="text-sm font-bold text-slate-500 hover:text-slate-800 transition-colors mr-2">
+                  ဝင်ရန်
                 </Link>
                 <Link to="/signup">
-                  <Button variant="outline" size="sm" className="rounded-none border-border/80 hover:bg-muted font-semibold">
-                    Sign Up
-                  </Button>
+                  <button className="rounded-xl border-2 border-slate-200 bg-white text-slate-600 hover:bg-slate-50 font-bold text-sm px-4 py-2 shadow-[0_3px_0_#cbd5e1] hover:-translate-y-0.5 active:translate-y-[3px] active:shadow-none transition-all cursor-pointer">
+                    အကောင့်ဖွင့်ရန်
+                  </button>
                 </Link>
               </>
             )}
@@ -149,7 +142,7 @@ export default function Layout() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            className="md:hidden p-2 rounded-xl text-slate-500 hover:text-slate-850 hover:bg-slate-50 border-2 border-transparent transition-colors"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
@@ -159,18 +152,18 @@ export default function Layout() {
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 z-40 bg-background/95 backdrop-blur-md animate-in fade-in slide-in-from-top-4 duration-200">
-          <nav className="container mx-auto px-6 py-8 flex flex-col gap-4 border-b border-border bg-background">
+        <div className="md:hidden fixed inset-0 top-16 z-40 bg-white/95 backdrop-blur-md animate-in fade-in slide-in-from-top-4 duration-200">
+          <nav className="container mx-auto px-6 py-8 flex flex-col gap-4 border-b-2 border-slate-150 bg-white">
             {navItems.map((item) => (
               <NavLink
                 key={item.path}
                 to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 p-3 rounded-none text-base font-medium transition-all ${
+                  `flex items-center gap-3 p-3 rounded-2xl text-base font-bold transition-all border-2 border-transparent ${
                     isActive
-                      ? "text-primary bg-primary/5 dark:bg-primary/10 border-l-2 border-primary"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      ? "text-green-600 bg-green-50 border-green-500/20"
+                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
                   }`
                 }
               >
@@ -178,55 +171,53 @@ export default function Layout() {
                 <span>{item.name}</span>
               </NavLink>
             ))}
-            <hr className="border-border my-2" />
+            <hr className="border-slate-100 my-2" />
             <div className="flex flex-col gap-2 w-full">
-              <button
-                onClick={toggleTheme}
-                className="w-full flex items-center justify-between p-3 rounded-none border border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer text-sm font-semibold mb-1"
-              >
-                <span>Theme Mode</span>
-                {theme === "dark" ? (
-                  <div className="flex items-center gap-1.5 text-primary"><Sun className="size-4" /><span>Light</span></div>
-                ) : (
-                  <div className="flex items-center gap-1.5 text-primary"><Moon className="size-4" /><span>Dark</span></div>
-                )}
-              </button>
               {user ? (
                 <>
-                  <div className="px-3 py-2 border border-border/60 rounded-none bg-muted/30 mb-2">
-                    <p className="font-bold text-foreground text-sm truncate">{user.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                  <div className="px-3 py-2 border-2 border-slate-100 rounded-2xl bg-slate-50/50 mb-2">
+                    <p className="font-bold text-slate-800 text-sm truncate">{user.name}</p>
+                    <p className="text-xs text-slate-400 truncate">{user.email}</p>
                   </div>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setHistoryDrawerOpen(true);
+                    }}
+                    className="w-full flex items-center gap-3 p-3 rounded-2xl text-base font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-50 border-2 border-transparent transition-all mb-2 cursor-pointer"
+                  >
+                    <History className="size-5" />
+                    <span>မှတ်တမ်း</span>
+                  </button>
                   <Link to="/major-test" onClick={() => setMobileMenuOpen(false)} className="w-full">
-                    <Button className="w-full justify-center gap-2 bg-primary text-primary-foreground rounded-none py-5 font-semibold">
-                      <span>Start Quiz</span>
+                    <button className="w-full justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold border-2 border-green-600 shadow-[0_3px_0_#15803d] rounded-xl py-3 flex items-center cursor-pointer">
+                      <span>ဉာဏ်စမ်းစတင်ရန်</span>
                       <ArrowRight className="size-4" />
-                    </Button>
+                    </button>
                   </Link>
-                  <Button
-                    variant="ghost"
+                  <button
                     onClick={async () => {
                       await authClient.signOut();
                       setMobileMenuOpen(false);
                       navigate("/");
                     }}
-                    className="w-full justify-center gap-2 rounded-none py-5 font-semibold text-destructive hover:bg-destructive/10"
+                    className="w-full justify-center gap-2 rounded-xl py-3 font-bold text-red-500 hover:bg-red-50 border-2 border-transparent transition-all mt-1 flex items-center cursor-pointer"
                   >
                     <LogOut className="size-4" />
-                    <span>Log Out</span>
-                  </Button>
+                    <span>အကောင့်မှထွက်ရန်</span>
+                  </button>
                 </>
               ) : (
                 <>
                   <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="w-full">
-                    <Button variant="ghost" className="w-full justify-center gap-2 rounded-none py-5 font-semibold">
-                      Log In
-                    </Button>
+                    <button className="w-full justify-center gap-2 rounded-xl py-3 font-bold border-2 border-transparent text-slate-600 hover:bg-slate-50 flex items-center cursor-pointer">
+                      ဝင်ရန်
+                    </button>
                   </Link>
                   <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="w-full">
-                    <Button variant="outline" className="w-full justify-center gap-2 rounded-none py-5 font-semibold">
-                      Sign Up
-                    </Button>
+                    <button className="w-full justify-center gap-2 rounded-xl py-3 font-bold border-2 border-slate-200 bg-white text-slate-600 shadow-[0_3px_0_#cbd5e1] flex items-center cursor-pointer">
+                      အကောင့်ဖွင့်ရန်
+                    </button>
                   </Link>
                 </>
               )}
@@ -241,25 +232,99 @@ export default function Layout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-muted/30 py-8 mt-auto">
+      <footer className="border-t-2 border-slate-100 bg-slate-50/50 py-8 mt-auto text-slate-500">
         <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <div className="flex items-center gap-2">
-            <Compass className="size-4 text-muted-foreground" />
-            <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} Pathfinder Academy. All rights reserved.
+            🚀
+            <p className="text-xs font-bold text-slate-400">
+              &copy; {new Date().getFullYear()} Pathfinder Academy. မူပိုင်ခွင့်အားလုံး ရရှိပြီးဖြစ်သည်။
             </p>
           </div>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <Link to="/major-test" className="hover:text-foreground transition-colors">Major Test</Link>
+          <div className="flex items-center gap-4 text-xs font-bold text-slate-400">
+            <Link to="/major-test" className="hover:text-green-600 transition-colors">မေဂျာ ဉာဏ်စမ်း</Link>
             <span>&bull;</span>
-            <Link to="/major" className="hover:text-foreground transition-colors">Majors Directory</Link>
+            <Link to="/major" className="hover:text-green-600 transition-colors">မေဂျာများ လမ်းညွှန်</Link>
             <span>&bull;</span>
-            <Link to="/career" className="hover:text-foreground transition-colors">Career Finder</Link>
+            <Link to="/career" className="hover:text-green-600 transition-colors">အလုပ်အကိုင် ရှာဖွေသူ</Link>
             <span>&bull;</span>
-            <Link to="/resources" className="hover:text-foreground transition-colors">Resources</Link>
+            <Link to="/resources" className="hover:text-green-600 transition-colors">အရင်းအမြစ်များ</Link>
           </div>
         </div>
       </footer>
+
+      {/* History Drawer */}
+      {historyDrawerOpen && (
+        <div className="fixed inset-0 z-50 flex justify-end animate-in fade-in duration-200">
+          {/* Backdrop */}
+          <div
+            onClick={() => setHistoryDrawerOpen(false)}
+            className="absolute inset-0 bg-slate-900/30 backdrop-blur-sm"
+          ></div>
+
+          {/* Drawer Panel */}
+          <div className="relative w-full max-w-md bg-white border-l-2 border-slate-200 shadow-[0_0_20px_rgba(0,0,0,0.05)] flex flex-col h-full animate-in slide-in-from-right duration-300 z-10">
+            {/* Header */}
+            <div className="p-6 border-b-2 border-slate-100 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🧭</span>
+                <span className="font-black text-lg text-slate-800">ဉာဏ်စမ်းမှတ်တမ်းများ</span>
+              </div>
+              <button
+                onClick={() => setHistoryDrawerOpen(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 border-2 border-transparent transition-colors cursor-pointer"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+
+            {/* List */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              {historyList.length === 0 ? (
+                <div className="text-center py-12 space-y-3">
+                  <div className="text-4xl">📭</div>
+                  <p className="text-sm font-bold text-slate-400">
+                    မှတ်တမ်း မရှိသေးပါ။
+                  </p>
+                </div>
+              ) : (
+                historyList.map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => {
+                      setHistoryDrawerOpen(false);
+                      navigate(`/major-test?history_id=${item.id}`);
+                    }}
+                    className="p-5 border-2 border-slate-200 rounded-2xl bg-white hover:border-green-500 shadow-[0_4px_0_#cbd5e1] hover:shadow-[0_4px_0_#22c55e] active:translate-y-[2px] active:shadow-[0_2px_0_#22c55e] transition-all cursor-pointer space-y-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-400 font-mono">
+                        {item.date}
+                      </span>
+                      <span className="text-xs font-black px-2.5 py-0.5 rounded-full bg-green-50 border border-green-200 text-green-700">
+                        {item.totalScore} မှတ်
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-black text-sm text-slate-800">
+                        ဝါသနာနယ်ပယ် - {
+                          item.quizScores.TECH > item.quizScores.INFRASTRUCTURE && item.quizScores.TECH > item.quizScores.ENERGY 
+                            ? "နည်းပညာ" 
+                            : item.quizScores.INFRASTRUCTURE > item.quizScores.ENERGY 
+                              ? "အခြေခံအဆောက်အအုံ" 
+                              : "စွမ်းအားစနစ်"
+                        }
+                      </h4>
+                      <p className="text-xs font-bold text-slate-400 line-clamp-2 mt-1">
+                        {item.results.aiInsight || "အကြံပြုချက် မရှိပါ"}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

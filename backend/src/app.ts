@@ -3,6 +3,7 @@ import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth";
 import cors from "cors";
 import prisma from "./lib/prisma";
+import matchRoute from "./routes/matchRoute";
 
 const app = express();
 
@@ -115,6 +116,9 @@ app.post("/api/user/marks", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// Matchmaking Recommendations Route
+app.use("/api", matchRoute);
 
 // 6. 404 fallback
 app.use((req: express.Request, res: express.Response) => {

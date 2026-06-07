@@ -1,10 +1,26 @@
+import { Link } from "react-router"
 import { SignupForm } from "@/pages/auth/signup-form"
 
 export default function SignupPage() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
-      <div className="w-full max-w-sm md:max-w-4xl">
-        <SignupForm />
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center items-center p-6">
+      <div className="w-full max-w-md">
+        {/* Logo wrapper */}
+        <div className="flex justify-center mb-6">
+          <Link to="/" className="flex items-center gap-2.5 group select-none">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-green-500 text-white shadow-[0_3px_0_#15803d] transition-transform duration-300 group-hover:scale-105">
+              🚀
+            </div>
+            <span className="font-black text-2xl tracking-tight text-slate-800">
+              Pathfinder
+            </span>
+          </Link>
+        </div>
+
+        {/* Card */}
+        <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 shadow-[0_8px_0_#cbd5e1] flex flex-col gap-6">
+          <SignupForm />
+        </div>
       </div>
     </div>
   )

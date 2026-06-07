@@ -1,34 +1,26 @@
-import { Compass } from "lucide-react"
 import { Link } from "react-router"
 import { LoginForm } from "@/pages/auth/login-form"
 
 export default function LoginPage() {
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center items-center p-6">
+      <div className="w-full max-w-md">
+        {/* Logo wrapper */}
+        <div className="flex justify-center mb-6">
           <Link to="/" className="flex items-center gap-2.5 group select-none">
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-primary/60 text-primary-foreground shadow-xs transition-transform duration-300 group-hover:scale-105">
-              <Compass className="size-5 transition-transform duration-500 group-hover:rotate-45" />
-              <div className="absolute -inset-0.5 bg-gradient-to-tr from-primary to-primary/30 rounded-xl blur-xs opacity-0 group-hover:opacity-60 transition-opacity duration-300 -z-10" />
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-green-500 text-white shadow-[0_3px_0_#15803d] transition-transform duration-300 group-hover:scale-105">
+              🚀
             </div>
-            <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-foreground/75 bg-clip-text text-transparent group-hover:opacity-90 transition-opacity">
+            <span className="font-black text-2xl tracking-tight text-slate-800">
               Pathfinder
             </span>
           </Link>
         </div>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xs">
-            <LoginForm />
-          </div>
+
+        {/* Card */}
+        <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 shadow-[0_8px_0_#cbd5e1] flex flex-col gap-6">
+          <LoginForm />
         </div>
-      </div>
-      <div className="relative hidden bg-muted lg:block">
-        <img
-          src="/login_banner.png"
-          alt="Login Banner"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
       </div>
     </div>
   )
