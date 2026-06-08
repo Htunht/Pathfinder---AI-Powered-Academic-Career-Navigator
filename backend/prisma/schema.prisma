@@ -89,12 +89,17 @@ model Verification {
 }
 
 model Major {
-  id          Int    @id @default(autoincrement())
-  majorCode   String @unique
-  name        String
-  myanmarName String
-  cutoffMark  Int
-  category    String
+  id               Int      @id @default(autoincrement())
+  majorCode        String   @unique
+  name             String
+  myanmarName      String
+  cutoffMark       Int
+  category         String
+  description      String   @default("")
+  topSkills        String[]
+  seniorTips       String   @default("")
+  activitiesPhotos String[]
+  careerRoadmap    String[]
 
   @@map("major")
 }

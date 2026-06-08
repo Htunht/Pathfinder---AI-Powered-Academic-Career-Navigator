@@ -1,5 +1,6 @@
 import { Link } from "react-router"
 import { LoginForm } from "@/pages/auth/login-form"
+import { Compass } from "lucide-react"
 
 export default function LoginPage() {
   return (
@@ -8,11 +9,11 @@ export default function LoginPage() {
         {/* Logo wrapper */}
         <div className="flex justify-center mb-6">
           <Link to="/" className="flex items-center gap-2.5 group select-none">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-green-500 text-white shadow-[0_3px_0_#15803d] transition-transform duration-300 group-hover:scale-105">
-              🚀
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-green-500 text-white shadow-[0_3px_0_#15803d] transition-all duration-300 group-hover:scale-105 group-hover:rotate-12">
+              <Compass className="size-5" strokeWidth={2.5} />
             </div>
             <span className="font-black text-2xl tracking-tight text-slate-800">
-              Pathfinder
+              DU WAN KYAL
             </span>
           </Link>
         </div>

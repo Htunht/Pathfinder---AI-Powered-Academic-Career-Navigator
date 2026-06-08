@@ -4,7 +4,7 @@ import Home from "@/pages/Home";
 import MajorTest from "@/pages/MajorTest";
 import Major from "@/pages/Major";
 import Career from "@/pages/Career";
-import Resources from "@/pages/Resources";
+import Mentorship from "@/pages/Mentorship";
 import SignupPage from "./components/auth/signup-form";
 import LoginPage from "./components/auth/login-form";
 
@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
       { path: "major-test", element: <MajorTest /> },
       { path: "major", element: <Major /> },
       { path: "career", element: <Career /> },
-      { path: "resources", element: <Resources /> },
+      { path: "mentorship", element: <Mentorship /> },
       // Catch-all redirect
       { path: "*", element: <Navigate to="/" replace /> },
     ],

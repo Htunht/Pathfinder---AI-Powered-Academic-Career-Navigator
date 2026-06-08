@@ -21,6 +21,7 @@ import {
   Compass,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
+import MajorDetailsHub from "../components/MajorDetailsHub";
 
 interface MajorItem {
   id: number;
@@ -32,6 +33,10 @@ interface MajorItem {
   courses: string[];
   jobs: string[];
   icon: React.ComponentType<{ className?: string }>;
+  topSkills: string[];
+  seniorTips: string;
+  activitiesPhotos: string[];
+  careerRoadmap: string[];
 }
 
 const MAJORS: MajorItem[] = [
@@ -57,28 +62,10 @@ const MAJORS: MajorItem[] = [
       "ရှုခင်းဗိသုကာပညာရှင် (Landscape Architect)"
     ],
     icon: Home,
-  },
-  {
-    id: 2,
-    name: "ဓာတုအင်ဂျင်နီယာ",
-    category: "Engineering",
-    description: "ကုန်ကြမ်းပစ္စည်းများကို တန်ဖိုးရှိသော ထုတ်ကုန်များအဖြစ် ဘေးကင်းပြီး ရေရှည်တည်တံ့စွာ ပြောင်းလဲရန် ရုပ်ပိုင်းဆိုင်ရာသိပ္ပံ၊ ဇီဝသိပ္ပံတို့ကို သင်္ချာနှင့် ပေါင်းစပ်သင်ကြားသည်။",
-    difficulty: 4.6,
-    duration: "၅ နှစ်",
-    courses: [
-      "ဓာတုဖြစ်စဉ် အခြေခံမူများ",
-      "အရည်စက်မှုပညာ (Fluid Mechanics)",
-      "အပူနှင့် ဒြပ်ထု လွှဲပြောင်းခြင်း",
-      "ဓာတုတုံ့ပြန်မှု အင်ဂျင်နီယာပညာ",
-      "စက်ရုံဒီဇိုင်း"
-    ],
-    jobs: [
-      "ဓာတုဖြစ်စဉ် အင်ဂျင်နီယာ",
-      "ရေနံချက်စက်ရုံ အင်ဂျင်နီယာ",
-      "အရည်အသွေးထိန်းချုပ်မှု မန်နေဂျာ",
-      "စားသောက်ကုန် ထုတ်လုပ်မှု အင်ဂျင်နီယာ"
-    ],
-    icon: FlaskConical,
+    topSkills: ["3D Modeling", "Spatial Design", "SketchUp & Lumion", "Architectural Drawing"],
+    seniorTips: "ဒီဇိုင်းဆွဲတဲ့အခါ တီထွင်ဖန်တီးနိုင်စွမ်းရှိဖို့ လိုသလို ကျောင်းက Studio တွေမှာ သူငယ်ချင်းတွေနဲ့ ညမအိပ်ဘဲ ပရောဂျက်လုပ်ရတဲ့အတွေ့အကြုံက ဘဝတစ်လျှောက်လုံးအတွက် အမှတ်တရဖြစ်စေမှာပါ။",
+    activitiesPhotos: ["/images/architecture_activity.png"],
+    careerRoadmap: ["Year 1: Architectural Sketching & Forms", "Year 2: History of Architecture & Space Planning", "Year 3: Structural Building Technology", "Year 4: Urban Planning & Landscape Design", "Year 5: Thesis Design Studio"]
   },
   {
     id: 3,
@@ -102,28 +89,10 @@ const MAJORS: MajorItem[] = [
       "အခြေခံအဆောက်အအုံဆိုင်ရာ အကြံပေး"
     ],
     icon: HardHat,
-  },
-  {
-    id: 4,
-    name: "ဆက်သွယ်ရေးအင်ဂျင်နီယာ",
-    category: "Engineering",
-    description: "ဆက်သွယ်ရေးကွန်ရက်များ၊ အချက်အလက်ပေးပို့ခြင်း၊ ဝိုင်ယာလက်စနစ်များနှင့် ခေတ်မီဆက်သွယ်ရေးအတွက် လိုအပ်သော အခြေခံအဆောက်အအုံများကို အဓိကထားလေ့လာသည်။",
-    difficulty: 4.5,
-    duration: "၅ နှစ်",
-    courses: [
-      "အချက်ပြနှင့် စနစ်များ (Signals and Systems)",
-      "ဒစ်ဂျစ်တယ် ဆက်သွယ်ရေး",
-      "အင်တင်နာနှင့် လှိုင်းပျံ့နှံ့မှု",
-      "မိုဘိုင်းဆက်သွယ်ရေးစနစ်များ",
-      "ဖိုင်ဘာအော်ပတစ်ကွန်ရက်များ"
-    ],
-    jobs: [
-      "ဆက်သွယ်ရေး အင်ဂျင်နီယာ",
-      "ကွန်ရက် စီမံခန့်ခွဲသူ (Network Administrator)",
-      "ရေဒီယိုကြိမ်နှုန်း (RF) အင်ဂျင်နီယာ",
-      "စနစ်အင်ဂျင်နင်ယာ (Systems Engineer)"
-    ],
-    icon: Radio,
+    topSkills: ["Structural Analysis", "AutoCAD & Revit", "Project Management", "Geotechnical Engineering"],
+    seniorTips: "လက်တွေ့လုပ်ငန်းခွင်ဆင်းရတာ စိတ်ဝင်စားဖို့ကောင်းသလို၊ သီအိုရီပိုင်း တွက်ချက်မှုတွေကိုလည်း အခြေခံပိုင်ပိုင်နိုင်နိုင် လေ့လာထားဖို့ အကြံပြုချင်ပါတယ်။ Site visit တွေ သေချာလိုက်ခဲ့ပါ!",
+    activitiesPhotos: ["/images/civil_engineering_activity.png"],
+    careerRoadmap: ["Year 1: Foundation of Math & Mechanics", "Year 2: Surveying & Fluid Dynamics", "Year 3: Concrete & Structural Design", "Year 4: Geotechnical & Transport Engineering", "Year 5: Graduation Thesis & Internships"]
   },
   {
     id: 5,
@@ -146,6 +115,10 @@ const MAJORS: MajorItem[] = [
       "ပြန်လည်ပြည့်ဖြိုးမြဲစွမ်းအင် အကြံပေး"
     ],
     icon: Zap,
+    topSkills: ["Power Grid Analysis", "Electrical Safety", "Power Electronics", "Renewable Energy"],
+    seniorTips: "High voltage စနစ်တွေနဲ့ အလုပ်လုပ်ရမှာဖြစ်လို့ Safety protocol တွေကို စနစ်တကျ သင်ယူထားဖို့ လိုအပ်ပါတယ်။ လျှပ်စစ်ဓာတ်အားပေးစက်ရုံ လေ့လာရေးခရီးစဉ်တွေကို မလွတ်တမ်းလိုက်ပါ။",
+    activitiesPhotos: ["/images/tech_lab_activity.png"],
+    careerRoadmap: ["Year 1: Electrical Fundamentals", "Year 2: AC/DC Machines & Power Systems", "Year 3: High Voltage Engineering", "Year 4: Renewable Power Integration", "Year 5: Power Transmission Thesis"]
   },
   {
     id: 6,
@@ -167,20 +140,24 @@ const MAJORS: MajorItem[] = [
       "အလိုအလျောက်စနစ် ကျွမ်းကျင်သူ"
     ],
     icon: Cpu,
+    topSkills: ["Circuit Design", "Embedded Systems", "PCB Design", "Microcontrollers"],
+    seniorTips: "Arduino သို့မဟုတ် Raspberry Pi နဲ့ ကိုယ်တိုင် အိမ်မှာ hardware ပရောဂျက်လေးတွေ လုပ်ကြည့်ပါ။ Circuit design ဆွဲတတ်ဖို့ အရမ်းအရေးကြီးပါတယ်။",
+    activitiesPhotos: ["/images/tech_lab_activity.png"],
+    careerRoadmap: ["Year 1: Basic Electrical Circuits", "Year 2: Analog & Digital Electronics", "Year 3: Microprocessor Systems", "Year 4: Signal Processing & VLSI Design", "Year 5: Embedded Systems Capstone Project"]
   },
   {
     id: 7,
-    name: "ကွန်ပျူတာအင်ဂျင်နီယာနှင့် အိုင်တီ",
+    name: "ကွန်ပျူတာအင်ဂျင်နီယာနှင့် သတင်းအချက်အလက်နည်းပညာ",
     category: "Engineering",
-    description: "စမတ်ကွန်ပျူတာစနစ်များ၊ ကွန်ရက်များနှင့် အဆင့်မြင့်ဆော့ဖ်ဝဲလ်များကို ဒီဇိုင်းဆွဲရန် ဟာ့ဒ်ဝဲလ်အင်ဂျင်နီယာပညာနှင့် ဆော့ဖ်ဝဲလ်ဖွံ့ဖြိုးတိုးတက်ရေးတို့ကို ပေါင်းစပ်သင်ကြားပေးသည်။",
+    description: "ကွန်ပျူတာ ဟာ့ဒ်ဝဲလ်၊ ဆော့ဖ်ဝဲလ်စနစ်များနှင့် သတင်းအချက်အလက်နည်းပညာရပ်များကို ပေါင်းစပ်လေ့လာသည်။ ကျောင်းသားများသည် ဒေတာစီမံခန့်ခွဲမှု၊ ကွန်ပျူတာကွန်ရက်များ၊ ဆော့ဖ်ဝဲလ်အင်ဂျင်နီယာပညာ၊ ဆိုက်ဘာလုံခြုံရေးနှင့် ဝဘ်နည်းပညာများကို သင်ယူရသည်။",
     difficulty: 4.8,
     duration: "၅ နှစ်",
     courses: [
       "ဒေတာတည်ဆောက်ပုံနှင့် အယ်လ်ဂိုရီသမ်များ (Data Structures & Algorithms)",
       "ဒေတာဘေ့စ် စီမံခန့်ခွဲမှုစနစ်များ",
-      "ကွန်ပျူတာ တည်ဆောက်ပုံစနစ်",
-      "လုပ်ငန်းလည်ပတ်မှုစနစ်များ (Operating Systems)",
-      "ဆော့ဖ်ဝဲလ် အင်ဂျင်နီယာပညာ"
+      "ဆော့ဖ်ဝဲလ် အင်ဂျင်နီယာပညာ",
+      "ကွန်ရက်စီမံခန့်ခွဲမှုနှင့် လုံခြုံရေး",
+      "ဝဘ်နည်းပညာများနှင့် ဖွံ့ဖြိုးတိုးတက်မှု"
     ],
     jobs: [
       "ဆော့ဖ်ဝဲလ် အင်ဂျင်နီယာ",
@@ -190,6 +167,10 @@ const MAJORS: MajorItem[] = [
       "ဒေတာဘေ့စ် စီမံခန့်ခွဲသူ (Database Administrator)"
     ],
     icon: Cpu,
+    topSkills: ["Web Development", "Data Structures & Algorithms", "Database Management", "Embedded Systems"],
+    seniorTips: "ပရိုဂရမ်းမင်းကို စာအုပ်ထဲကတင်မကဘဲ လက်တွေ့ project တွေ ကိုယ်တိုင်ရေးကြည့်ဖို့ တိုက်တွန်းချင်ပါတယ်။ Github သုံးတတ်အောင် စောစောလေ့လာထားပါ။",
+    activitiesPhotos: ["/images/tech_lab_activity.png"],
+    careerRoadmap: ["Year 1: Introduction to Programming (Python/C++)", "Year 2: Data Structures & OOP", "Year 3: Operating Systems & Computer Networks", "Year 4: Software Engineering & Cybersecurity", "Year 5: Final Year Capstone Project"]
   },
   {
     id: 8,
@@ -212,6 +193,10 @@ const MAJORS: MajorItem[] = [
       "မော်တော်ယာဉ် အင်ဂျင်နီယာ"
     ],
     icon: Settings,
+    topSkills: ["SolidWorks & CAD", "Thermodynamics", "Fluid Mechanics", "Machine Design"],
+    seniorTips: "Physics နဲ့ Math အခြေခံ ကောင်းဖို့လိုပါတယ်။ လက်တွေ့ ကားအင်ဂျင်တွေ၊ စက်ရုံတွေမှာ စက်ပစ္စည်းတွေ ဘယ်လိုအလုပ်လုပ်လဲဆိုတာကို သေချာလေ့လာဆန်းစစ်ပါ။",
+    activitiesPhotos: ["/images/civil_engineering_activity.png"],
+    careerRoadmap: ["Year 1: Engineering Graphics & CAD", "Year 2: Mechanics of Materials & Fluid Dynamics", "Year 3: Machine Element Design", "Year 4: HVAC & Control Systems", "Year 5: Mechanical Design Thesis"]
   },
   {
     id: 9,
@@ -234,98 +219,12 @@ const MAJORS: MajorItem[] = [
       "တိုင်းတာမှုနှင့် ထိန်းချုပ်မှု အင်ဂျင်နီယာ"
     ],
     icon: Bot,
-  },
-  {
-    id: 10,
-    name: "သတ္တုဗေဒအင်ဂျင်နီယာ",
-    category: "Engineering",
-    description: "သတ္တုဒြပ်စင်များ၊ ၎င်းတို့၏ သတ္တုဒြပ်ပေါင်းများနှင့် ၎င်းတို့၏ အရောအနှောများ (သတ္တုစပ်များ) ၏ ရုပ်ပိုင်းဆိုင်ရာနှင့် ဓာတုဗေဒဆိုင်ရာ အပြုအမူများကို လေ့လာသည်။",
-    difficulty: 4.4,
-    duration: "၅ နှစ်",
-    courses: [
-      "ရုပ်ပိုင်းဆိုင်ရာ သတ္တုဗေဒ",
-      "သတ္တုထုတ်ယူခြင်းပညာ",
-      "ကုန်ကြမ်းသိပ္ပံ",
-      "သတ္တုသွန်းလောင်းခြင်း အင်ဂျင်နီယာပညာ",
-      "သတ္တုချေးတက်ခြင်း ကာကွယ်ရေး အင်ဂျင်နီယာပညာ"
-    ],
-    jobs: [
-      "သတ္တုဗေဒအင်ဂျင်နီယာ",
-      "ကုန်ကြမ်းအင်ဂျင်နီယာ",
-      "အရည်အသွေး အာမခံချက် အင်ဂျင်နီယာ",
-      "ဂဟေဆက်ခြင်း အင်ဂျင်နီယာ"
-    ],
-    icon: Flame,
-  },
-  {
-    id: 11,
-    name: "သတ္တုတွင်းအင်ဂျင်နီယာ",
-    category: "Engineering",
-    description: "ဘေးကင်းရေး၊ စီးပွားရေးအရ တွက်ခြေကိုက်မှုနှင့် ပတ်ဝန်းကျင်ရေရှည်တည်တံ့မှုတို့ကို အဓိကထား၍ မြေအောက်၊ မြေပြင် သို့မဟုတ် မြေတွင်းမှ သတ္တုသယံဇာတများ ထုတ်ယူခြင်းကို လုပ်ဆောင်သည်။",
-    difficulty: 4.5,
-    duration: "၅ နှစ်",
-    courses: [
-      "မြေပြင်သတ္တုတွင်း တူးဖော်ခြင်း",
-      "မြေအောက်သတ္တုတွင်း တည်းဆောက်မှုနည်းပညာ",
-      "ကျောက်စက်မှုပညာ (Rock Mechanics)",
-      "သတ္တုသန့်စင်ခြင်း",
-      "မိုင်းတွင်းဘေးကင်းရေးနှင့် စီမံခန့်ခွဲမှု"
-    ],
-    jobs: [
-      "သတ္တုတွင်းအင်ဂျင်နီယာ",
-      "မိုင်းတွင်းမန်နေဂျာ",
-      "တူးဖော်ရေး အင်ဂျင်နီယာ",
-      "ဘူမိနည်းပညာဆိုင်ရာ အကြံပေး"
-    ],
-    icon: Pickaxe,
-  },
-  {
-    id: 12,
-    name: "ရေနံအင်ဂျင်နီယာ",
-    category: "Engineering",
-    description: "ရေနံနှင့် သဘာဝဓာတ်ငွေ့ သယံဇာတများကို ရှာဖွေခြင်း၊ တူးဖော်ခြင်း၊ ထုတ်ယူခြင်းနှင့် ထုတ်လုပ်ခြင်းတို့ကို အဓိကထား လုပ်ဆောင်သည်။",
-    difficulty: 4.7,
-    duration: "၅ နှစ်",
-    courses: [
-      "တူးဖော်ရေး အင်ဂျင်နီယာပညာ",
-      "ရေနံသိုလှောင်ကန် အင်ဂျင်နီယာပညာ (Reservoir)",
-      "ရေနံထုတ်လုပ်မှု အင်ဂျင်နီယာပညာ",
-      "တွင်းမှတ်တမ်းဆန်းစစ်ခြင်း (Well Logging)",
-      "တွင်းစမ်းသပ်ခြင်း"
-    ],
-    jobs: [
-      "ရေနံအင်ဂျင်နီယာ",
-      "ရေနံသိုလှောင်ကန် အင်ဂျင်နီယာ",
-      "တူးဖော်ရေး ကြီးကြပ်သူ",
-      "ထုတ်လုပ်မှု လေ့လာဆန်းစစ်သူ"
-    ],
-    icon: Flame,
-  },
-  {
-    id: 13,
-    name: "အထည်အလိပ်အင်ဂျင်နီယာ",
-    category: "Engineering",
-    description: "ချည်မျှင်၊ အထည်အလိပ်နှင့် အဝတ်အထည်များ ထုတ်လုပ်မှု လုပ်ငန်းစဉ်များ၊ ထုတ်ကုန်များနှင့် စက်ပစ္စည်းများ၏ ဒီဇိုင်း၊ ထုတ်လုပ်မှုနှင့် ထိန်းချုပ်မှုတို့တွင် အင်ဂျင်နီယာဆိုင်ရာ အခြေခံမူများကို အသုံးချသည်။",
-    difficulty: 4.2,
-    duration: "၅ နှစ်",
-    courses: [
-      "ချည်မျှင်သိပ္ပံ",
-      "ချည်ငင်ထုတ်လုပ်မှုပညာ",
-      "အထည်ယက်လုပ်မှုပညာ",
-      "အထည်အလိပ်ဓာတုဗေဒနှင့် ဆေးဆိုးခြင်းလုပ်ငန်းစဉ်",
-      "အထည်ချုပ်နည်းပညာ"
-    ],
-    jobs: [
-      "အထည်အလိပ် အင်ဂျင်နီယာ",
-      "ထုတ်လုပ်မှု မန်နေဂျာ",
-      "အရည်အသွေးထိန်းချုပ်မှု ကျွမ်းကျင်သူ",
-      "အဝတ်အထည် ထုတ်ကုန်ရေးဆွဲသူ"
-    ],
-    icon: Scissors,
+    topSkills: ["Robotics & Automation", "PLC Programming", "Control Systems", "Sensor Technology"],
+    seniorTips: "Hardware နဲ့ Software နှီးနွှယ်နေတဲ့ ဘာသာရပ်ဖြစ်လို့ နှစ်ခုစလုံးကို ဟန်ချက်ညီညီ လေ့လာပါ။ Robot တွေ ကိုယ်တိုင် တည်ဆောက်ပြီး စမ်းသပ်ကြည့်ပါ။",
+    activitiesPhotos: ["/images/tech_lab_activity.png"],
+    careerRoadmap: ["Year 1: Basic Electronics & Mechanical CAD", "Year 2: Digital Systems & Microcontrollers", "Year 3: Sensors and Actuators & Dynamics", "Year 4: Robotics & Automation (PLC)", "Year 5: Robotic Prototype Graduation Project"]
   }
-];
-
-const getCategoryStyles = (category: "Engineering" | "Architecture") => {
+];const getCategoryStyles = (category: "Engineering" | "Architecture") => {
   switch (category) {
     case "Engineering":
       return {
@@ -536,112 +435,10 @@ export default function Major() {
 
       {/* Detail Modal */}
       {selectedMajor && (
-        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white border-2 border-slate-200 rounded-3xl w-full max-w-xl shadow-[0_12px_0_#cbd5e1] overflow-hidden relative animate-in zoom-in-95 duration-200">
-            {/* Modal Header */}
-            {(() => {
-              const styles = getCategoryStyles(selectedMajor.category);
-              return (
-                <>
-                  <div className="p-6 border-b-2 border-slate-100 flex items-start justify-between bg-slate-50/50">
-                    <div className="flex gap-3">
-                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border-2 ${styles.iconBg} ${styles.iconBorder}`}>
-                        <selectedMajor.icon className="size-6" />
-                      </div>
-                      <div>
-                        <h2 className="text-xl font-black text-slate-800 leading-tight tracking-tight">{selectedMajor.name}</h2>
-                        <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border mt-1.5 inline-block ${styles.bg} ${styles.text}`}>
-                          {selectedMajor.category === "Engineering" ? "အင်ဂျင်နီယာ" : "ဗိသုကာ"}
-                        </span>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setSelectedMajor(null)}
-                      className="p-2 rounded-xl border-2 border-slate-200 hover:bg-slate-50 text-slate-400 hover:text-slate-600 transition-all cursor-pointer bg-white"
-                    >
-                      <X className="size-4.5" />
-                    </button>
-                  </div>
-
-                  {/* Modal Content */}
-                  <div className="p-6 flex flex-col gap-5 max-h-[60vh] overflow-y-auto">
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest">💡 ခြုံငုံသုံးသပ်ချက်</h4>
-                      <p className="text-sm font-semibold text-slate-600 leading-relaxed">{selectedMajor.description}</p>
-                    </div>
-
-                    {/* Stats badges */}
-                    <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border-2 border-slate-100 font-mono">
-                      <div className="flex flex-col gap-0.5">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">ကြာမြင့်ချိန်</span>
-                        <span className="text-sm font-black text-slate-800">{selectedMajor.duration}</span>
-                      </div>
-                      <div className="flex flex-col gap-0.5">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">ခက်ခဲမှုအဆင့်</span>
-                        <div className="flex items-center gap-1">
-                          <span className="text-sm font-black text-slate-800">{selectedMajor.difficulty}/၅</span>
-                          <div className="flex text-amber-500">
-                            {Array.from({ length: 5 }).map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`size-3 ${
-                                  i < Math.floor(selectedMajor.difficulty)
-                                    ? "fill-current"
-                                    : "text-slate-300"
-                                  }`}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Detail lists */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                      {/* Courses */}
-                      <div className="space-y-3.5">
-                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                          📚 <span>အဓိက ဘာသာရပ်များ</span>
-                        </h4>
-                        <ul className="space-y-2">
-                          {selectedMajor.courses.map((course, idx) => (
-                            <li key={idx} className="text-xs font-bold text-slate-600 bg-slate-50 border-2 border-slate-100/50 p-2.5 px-3 rounded-2xl">
-                              {course}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Careers / Outcomes */}
-                      <div className="space-y-3.5">
-                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                          💼 <span>လူကြိုက်များသော အလုပ်အကိုင်များ</span>
-                        </h4>
-                        <ul className="space-y-2">
-                          {selectedMajor.jobs.map((job, idx) => (
-                            <li key={idx} className="text-xs font-bold text-slate-600 bg-slate-50 border-2 border-slate-100/50 p-2.5 px-3 rounded-2xl">
-                              {job}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              );
-            })()}
-
-            {/* Modal Footer */}
-            <div className="p-4 border-t-2 border-slate-100 bg-slate-50/50 flex justify-end">
-              <button 
-                onClick={() => setSelectedMajor(null)} 
-                className="bg-green-500 hover:bg-green-600 text-white font-black px-6 py-3 rounded-2xl border-b-4 border-green-700 active:border-b-0 active:translate-y-[4px] transition-all cursor-pointer text-sm shadow-sm font-sans"
-              >
-                ပိတ်ရန်
-              </button>
-            </div>
-          </div>
-        </div>
+        <MajorDetailsHub
+          major={selectedMajor as any}
+          onClose={() => setSelectedMajor(null)}
+        />
       )}
     </div>
   );

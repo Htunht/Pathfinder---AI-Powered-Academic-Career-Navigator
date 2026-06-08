@@ -4,6 +4,7 @@ import { ClipboardList, ArrowRight, RotateCcw, ArrowLeft } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
 import QuizAssessment from "../components/QuizAssessment";
+import MajorDetailsHub from "../components/MajorDetailsHub";
 
 
 
@@ -11,22 +12,22 @@ const MATCH_INFO = {
   TECH: {
     title: "နည်းပညာနှင့် အီလက်ထရောနစ်",
     description: "သင်သည် ခိုင်မာသော ယုတ္တိတွေးခေါ်မှုစွမ်းရည် ရှိပြီး ဆော့ဖ်ဝဲလ်အင်ဂျင်နီယာပညာ၊ ဒစ်ဂျစ်တယ်စနစ်များ၊ မိုက်ခရိုကွန်ထရိုလာများ၊ ထိန်းချုပ်မှုစနစ်များနှင့် အလိုအလျောက် စက်ရုပ်နည်းပညာများကို စိတ်ဝင်စားသူဖြစ်သည်။",
-    majors: ["ကွန်ပျူတာအင်ဂျင်နီယာနှင့် အိုင်တီ", "အီလက်ထရောနစ်အင်ဂျင်နီယာ", "မက္ကာထရောနစ်အင်ဂျင်နီယာ", "ဆက်သွယ်ရေးအင်ဂျင်နီယာ"],
-    careers: ["ဆော့ဖ်ဝဲလ် ဗိသုကာပညာရှင် (Software Architect)", "စက်ရုပ်နှင့် အလိုအလျောက်စနစ် အင်ဂျင်နီယာ (Robotics & Automation Engineer)", "ဆက်သွယ်ရေး ကွန်ရက်အင်ဂျင်နီယာ (Telecom Network Engineer)"],
+    majors: ["ကွန်ပျူတာအင်ဂျင်နီယာနှင့် သတင်းအချက်အလက်နည်းပညာ", "အီလက်ထရောနစ်အင်ဂျင်နီယာ", "မက္ကာထရိုနစ်အင်ဂျင်နီယာ"],
+    careers: ["ဆော့ဖ်ဝဲလ် ဗိသုကာပညာရှင် (Software Architect)", "စက်ရုပ်နှင့် အလိုအလျောက်စနစ် အင်ဂျင်နီယာ (Robotics & Automation Engineer)", "ကွန်ပျူတာစနစ် အင်ဂျင်နီယာ (Computer Systems Engineer)"],
     color: "bg-blue-600 dark:bg-blue-500",
   },
   INFRASTRUCTURE: {
     title: "မြို့ပြ အခြေခံအဆောက်အအုံနှင့် ဗိသုကာပညာ",
     description: "သင်သည် အဆောက်အအုံပုံစံကြမ်းများ၊ တည်ဆောက်ပုံ ခိုင်ခံ့မှုတွက်ချက်မှုများ၊ ဒဏ်ခံနိုင်ရည်နှင့် ပတ်ဝန်းကျင်ဆိုင်ရာ ဒီဇိုင်းများအပေါ် စိတ်ဝင်စားသူဖြစ်သည်။",
-    majors: ["မြို့ပြအင်ဂျင်နီယာ", "စက်မှုအင်ဂျင်နီယာ", "သတ္တုတွင်းအင်ဂျင်နီယာ", "ဗိသုကာပညာ"],
+    majors: ["မြို့ပြအင်ဂျင်နီယာ", "စက်မှုအင်ဂျင်နီယာ", "ဗိသုကာပညာ"],
     careers: ["ပရောဂျက် ဗိသုကာပညာရှင် (Project Architect)", "တည်ဆောက်ရေး အင်ဂျင်နီယာ (Structural Engineer)", "ဘူမိနည်းပညာ လေ့လာဆန်းစစ်သူ (Geotechnical Analyst)"],
     color: "bg-purple-600 dark:bg-purple-500",
   },
   ENERGY: {
     title: "စွမ်းအင်နှင့် ပါဝါစနစ်များ",
-    description: "သင်သည် ဗို့အားမြင့် လျှပ်စစ်လိုင်းများ၊ လျှပ်စစ်ဓာတ်အား ဖြန့်ဖြူးမှု ဘေးကင်းလုံခြုံရေး၊ ရေနံတူးဖော်ရေး စနစ်များနှင့် ရေနံ/သဘာဝဓာတ်ငွေ့ သိုလှောင်ကန်များကို စိတ်ဝင်စားသူဖြစ်သည်။",
-    majors: ["လျှပ်စစ်စွမ်းအား အင်ဂျင်နီယာ", "ရေနံအင်ဂျင်နီယာ"],
-    careers: ["စွမ်းအားစနစ် စီမံရေးဆွဲသူ (Power Systems Planner)", "ပင်လယ်ရေအောက် တူးဖော်ရေး ကျွမ်းကျင်သူ (Subsea Drilling Specialist)"],
+    description: "သင်သည် ဗို့အားမြင့် လျှပ်စစ်လိုင်းများ၊ လျှပ်စစ်ဓာတ်အား ဖြန့်ဖြူးမှု ဘေးကင်းလုံခြုံရေးတို့ကို စိတ်ဝင်စားသူဖြစ်သည်။",
+    majors: ["လျှပ်စစ်စွမ်းအား အင်ဂျင်နီယာ"],
+    careers: ["စွမ်းအားစနစ် စီမံရေးဆွဲသူ (Power Systems Planner)", "လျှပ်စစ်ဓာတ်အားခွဲရုံ အင်ဂျင်နီယာ (Substation Engineer)"],
     color: "bg-emerald-600 dark:bg-emerald-500",
   },
 };
@@ -40,16 +41,97 @@ const CATEGORY_LABEL_MAP: { [key: string]: string } = {
 };
 
 const FALLBACK_MAJORS = [
-  { id: 1, majorCode: "CE", name: "Civil Engineering", myanmarName: "မြို့ပြအင်ဂျင်နီယာ", cutoffMark: 279, category: "Infrastructure" },
-  { id: 2, majorCode: "ARCHI", name: "Architecture", myanmarName: "ဗိသုကာ", cutoffMark: 275, category: "Architecture" },
-  { id: 3, majorCode: "IT", name: "Computer Engineering & IT", myanmarName: "ကွန်ပျူတာအင်ဂျင်နီယာနှင့် သတင်းအချက်အလက်နည်းပညာ", cutoffMark: 269, category: "Tech & Electronics" },
-  { id: 4, majorCode: "EC", name: "Electronic Engineering", myanmarName: "အီလက်ထရောနစ်အင်ဂျင်နီယာ", cutoffMark: 256, category: "Tech & Electronics" },
-  { id: 5, majorCode: "EP", name: "Electrical Power Engineering", myanmarName: "လျှပ်စစ်စွမ်းအားအင်ဂျင်နီယာ", cutoffMark: 254, category: "Process & Energy" },
-  { id: 6, majorCode: "ME", name: "Mechanical Engineering", myanmarName: "စက်မှုအင်ဂျင်နီယာ", cutoffMark: 246, category: "Infrastructure" },
-  { id: 7, majorCode: "MECHATRONIC", name: "Mechatronic Engineering", myanmarName: "မက္ကာထရိုနစ်အင်ဂျင်နီယာ", cutoffMark: 240, category: "Tech & Electronics" },
-  { id: 8, majorCode: "PE", name: "Petroleum Engineering", myanmarName: "ရေနံအင်ဂျင်နီယာ", cutoffMark: 260, category: "Process & Energy" },
-  { id: 9, majorCode: "COM", name: "Communication Engineering", myanmarName: "ဆက်သွယ်ရေးအင်ဂျင်နီယာ", cutoffMark: 245, category: "Tech & Electronics" },
-  { id: 10, majorCode: "MIN", name: "Mining Engineering", myanmarName: "သတ္တုတွင်းအင်ဂျင်နီယာ", cutoffMark: 230, category: "Infrastructure" }
+  {
+    id: 1,
+    majorCode: "CE",
+    name: "Civil Engineering",
+    myanmarName: "မြို့ပြအင်ဂျင်နီယာ",
+    cutoffMark: 279,
+    category: "Infrastructure",
+    description: "မြို့ပြအင်ဂျင်နီယာဘာသာရပ်သည် လမ်းများ၊ တံတားများ၊ အဆောက်အအုံများနှင့် ဆည်မြောင်းများကဲ့သို့သော အခြေခံအဆောက်အအုံများကို ဒီဇိုင်းဆွဲခြင်း၊ တည်ဆောက်ခြင်းနှင့် ထိန်းသိမ်းခြင်းကို အဓိကသင်ကြားပေးသော ပညာရပ်ဖြစ်သည်။",
+    topSkills: ["Structural Analysis", "AutoCAD & Revit", "Project Management", "Geotechnical Engineering"],
+    seniorTips: "လက်တွေ့လုပ်ငန်းခွင်ဆင်းရတာ စိတ်ဝင်စားဖို့ကောင်းသလို၊ သီအိုရီပိုင်း တွက်ချက်မှုတွေကိုလည်း အခြေခံပိုင်ပိုင်နိုင်နိုင် လေ့လာထားဖို့ အကြံပြုချင်ပါတယ်။ Site visit တွေ သေချာလိုက်ခဲ့ပါ!",
+    activitiesPhotos: ["/images/civil_engineering_activity.png"],
+    careerRoadmap: ["Year 1: Foundation of Math & Mechanics", "Year 2: Surveying & Fluid Dynamics", "Year 3: Concrete & Structural Design", "Year 4: Geotechnical & Transport Engineering", "Year 5: Graduation Thesis & Internships"]
+  },
+  {
+    id: 2,
+    majorCode: "ARCHI",
+    name: "Architecture",
+    myanmarName: "ဗိသုကာ",
+    cutoffMark: 275,
+    category: "Architecture",
+    description: "ဗိသုကာပညာရပ်သည် အဆောက်အအုံများ၏ အလှအပဆိုင်ရာ ဒီဇိုင်းပုံစံများ ရေးဆွဲခြင်း၊ နေရာလွတ်စီမံခန့်ခွဲမှုနှင့် ရေရှည်တည်တံ့သော ဗိသုကာပညာရပ်များကို ပေါင်းစပ်သင်ယူရသည့် အနုပညာနှင့် သိပ္ပံပညာရပ် ဖြစ်သည်။",
+    topSkills: ["3D Modeling", "Spatial Design", "SketchUp & Lumion", "Architectural Drawing"],
+    seniorTips: "ဒီဇိုင်းဆွဲတဲ့အခါ တီထွင်ဖန်တီးနိုင်စွမ်းရှိဖို့ လိုသလို ကျောင်းက Studio တွေမှာ သူငယ်ချင်းတွေနဲ့ ညမအိပ်ဘဲ ပရောဂျက်လုပ်ရတဲ့အတွေ့အကြုံက ဘဝတစ်လျှောက်လုံးအတွက် အမှတ်တရဖြစ်စေမှာပါ။",
+    activitiesPhotos: ["/images/architecture_activity.png"],
+    careerRoadmap: ["Year 1: Architectural Sketching & Forms", "Year 2: History of Architecture & Space Planning", "Year 3: Structural Building Technology", "Year 4: Urban Planning & Landscape Design", "Year 5: Thesis Design Studio"]
+  },
+  {
+    id: 3,
+    majorCode: "CEIT",
+    name: "Computer Engineering & Information Technology (CEIT)",
+    myanmarName: "ကွန်ပျူတာအင်ဂျင်နီယာနှင့် သတင်းအချက်အလက်နည်းပညာ",
+    cutoffMark: 269,
+    category: "Tech & Electronics",
+    description: "ကွန်ပျူတာဟာ့ဒ်ဝဲလ်၊ ဆော့ဖ်ဝဲလ်စနစ်များနှင့် ကွန်ရက်နည်းပညာရပ်များကို ပေါင်းစပ်လေ့လာသည့် ဘာသာရပ်ဖြစ်သည်။ ကျောင်းသားများသည် ဆော့ဖ်ဝဲလ်တည်ဆောက်မှု၊ ဆိုက်ဘာလုံခြုံရေး၊ ဒေတာဘေ့စ်နှင့် ဝဘ်နည်းပညာများကို သင်ယူရသည်။",
+    topSkills: ["Web Development", "Data Structures & Algorithms", "Database Management", "Embedded Systems"],
+    seniorTips: "ပရိုဂရမ်းမင်းကို စာအုပ်ထဲကတင်မကဘဲ လက်တွေ့ project တွေ ကိုယ်တိုင်ရေးကြည့်ဖို့ တိုက်တွန်းချင်ပါတယ်။ Github သုံးတတ်အောင် စောစောလေ့လာထားပါ။",
+    activitiesPhotos: ["/images/tech_lab_activity.png"],
+    careerRoadmap: ["Year 1: Introduction to Programming (Python/C++)", "Year 2: Data Structures & OOP", "Year 3: Operating Systems & Computer Networks", "Year 4: Software Engineering & Cybersecurity", "Year 5: Final Year Capstone Project"]
+  },
+  {
+    id: 4,
+    majorCode: "EC",
+    name: "Electronics Engineering (EC)",
+    myanmarName: "အီလက်ထရောနစ်အင်ဂျင်နီယာ",
+    cutoffMark: 256,
+    category: "Tech & Electronics",
+    description: "အီလက်ထရောနစ်ပတ်လမ်းများ၊ ဆီမီးကွန်ဒက်တာကိရိယာများ၊ အချက်ပြလှိုင်းများခွဲခြမ်းစိတ်ဖြာမှုနှင့် မြှုပ်နှံစနစ်များ (Embedded Systems) ကို အဓိကထားလေ့လာသော နည်းပညာရပ်ဖြစ်သည်။",
+    topSkills: ["Circuit Design", "Embedded Systems", "PCB Design", "Microcontrollers"],
+    seniorTips: "Arduino သို့မဟုတ် Raspberry Pi နဲ့ ကိုယ်တိုင် အိမ်မှာ hardware ပရောဂျက်လေးတွေ လုပ်ကြည့်ပါ။ Circuit design ဆွဲတတ်ဖို့ အရမ်းအရေးကြီးပါတယ်။",
+    activitiesPhotos: ["/images/tech_lab_activity.png"],
+    careerRoadmap: ["Year 1: Basic Electrical Circuits", "Year 2: Analog & Digital Electronics", "Year 3: Microprocessor Systems", "Year 4: Signal Processing & VLSI Design", "Year 5: Embedded Systems Capstone Project"]
+  },
+  {
+    id: 5,
+    majorCode: "EP",
+    name: "Electrical Power Engineering (EP)",
+    myanmarName: "လျှပ်စစ်စွမ်းအားအင်ဂျင်နီယာ",
+    cutoffMark: 254,
+    category: "Process & Energy",
+    description: "လျှပ်စစ်စွမ်းအားထုတ်လုပ်ခြင်း၊ ပို့လွှတ်ခြင်း၊ ဖြန့်ဖြူးခြင်းနှင့် လျှပ်စစ်ဓာတ်အားစနစ်များ ဘေးကင်းလုံခြုံမှုရှိစေရန် ထိန်းချုပ်ခြင်းဆိုင်ရာ နည်းပညာရပ်များကို သင်ယူရသော ဘာသာရပ် ဖြစ်သည်။",
+    topSkills: ["Power Grid Analysis", "Electrical Safety", "Power Electronics", "Renewable Energy"],
+    seniorTips: "High voltage စနစ်တွေနဲ့ အလုပ်လုပ်ရမှာဖြစ်လို့ Safety protocol တွေကို စနစ်တကျ သင်ယူထားဖို့ လိုအပ်ပါတယ်။ လျှပ်စစ်ဓာတ်အားပေးစက်ရုံ လေ့လာရေးခရီးစဉ်တွေကို မလွတ်တမ်းလိုက်ပါ။",
+    activitiesPhotos: ["/images/tech_lab_activity.png"],
+    careerRoadmap: ["Year 1: Electrical Fundamentals", "Year 2: AC/DC Machines & Power Systems", "Year 3: High Voltage Engineering", "Year 4: Renewable Power Integration", "Year 5: Power Transmission Thesis"]
+  },
+  {
+    id: 6,
+    majorCode: "ME",
+    name: "Mechanical Engineering",
+    myanmarName: "စက်မှုအင်ဂျင်နီယာ",
+    cutoffMark: 246,
+    category: "Infrastructure",
+    description: "စက်ပစ္စည်းကိရိယာများနှင့် အပူစွမ်းအင်သုံးစနစ်များ၏ ဒီဇိုင်း၊ ထုတ်လုပ်မှုနှင့် ထိန်းသိမ်းမှုတို့ကို အဓိကထားသည့် အကျယ်ပြန့်ဆုံးသော နယ်ပယ်တစ်ခု ဖြစ်သည်။",
+    topSkills: ["SolidWorks & CAD", "Thermodynamics", "Fluid Mechanics", "Machine Design"],
+    seniorTips: "Physics နဲ့ Math အခြေခံ ကောင်းဖို့လိုပါတယ်။ လက်တွေ့ ကားအင်ဂျင်တွေ၊ စက်ရုံတွေမှာ စက်ပစ္စည်းတွေ ဘယ်လိုအလုပ်လုပ်လဲဆိုတာကို သေချာလေ့လာဆန်းစစ်ပါ။",
+    activitiesPhotos: ["/images/civil_engineering_activity.png"],
+    careerRoadmap: ["Year 1: Engineering Graphics & CAD", "Year 2: Mechanics of Materials & Fluid Dynamics", "Year 3: Machine Element Design", "Year 4: HVAC & Control Systems", "Year 5: Mechanical Design Thesis"]
+  },
+  {
+    id: 7,
+    majorCode: "MC",
+    name: "Mechatronics Engineering (MC)",
+    myanmarName: "မက္ကာထရိုနစ်အင်ဂျင်နီယာ",
+    cutoffMark: 240,
+    category: "Tech & Electronics",
+    description: "စက်မှုအင်ဂျင်နီယာပညာ၊ အီလက်ထရောနစ်နှင့် ကွန်ပျူတာထိန်းချုပ်မှုစနစ်များကို ပေါင်းစပ်ထားသော စက်ရုပ်နည်းပညာနှင့် အလိုအလျောက်ထိန်းချုပ်မှုစနစ်များဆိုင်ရာ နวัตกรรมဘာသာရပ် ဖြစ်သည်။",
+    topSkills: ["Robotics & Automation", "PLC Programming", "Control Systems", "Sensor Technology"],
+    seniorTips: "Hardware နဲ့ Software နှီးနွှယ်နေတဲ့ ဘာသာရပ်ဖြစ်လို့ နှစ်ခုစလုံးကို ဟန်ချက်ညီညီ လေ့လာပါ။ Robot တွေ ကိုယ်တိုင် တည်ဆောက်ပြီး စမ်းသပ်ကြည့်ပါ။",
+    activitiesPhotos: ["/images/tech_lab_activity.png"],
+    careerRoadmap: ["Year 1: Basic Electronics & Mechanical CAD", "Year 2: Digital Systems & Microcontrollers", "Year 3: Sensors and Actuators & Dynamics", "Year 4: Robotics & Automation (PLC)", "Year 5: Robotic Prototype Graduation Project"]
+  }
 ];
 
 interface BackendMajor {
@@ -61,6 +143,11 @@ interface BackendMajor {
   category: string;
   isEligible: boolean;
   isRecommended: boolean;
+  description: string;
+  topSkills: string[];
+  seniorTips: string;
+  activitiesPhotos: string[];
+  careerRoadmap: string[];
 }
 
 interface MatchmakingResults {
@@ -70,7 +157,7 @@ interface MatchmakingResults {
   aiInsight?: string;
 }
 
-const DuolingoCard = ({ major, type }: { major: BackendMajor; type: "TOP" | "ELIGIBLE" | "LOCKED" }) => {
+const DuolingoCard = ({ major, type, onClick }: { major: BackendMajor; type: "TOP" | "ELIGIBLE" | "LOCKED"; onClick?: () => void }) => {
   const isLocked = type === "LOCKED";
   const isTop = type === "TOP";
 
@@ -84,7 +171,7 @@ const DuolingoCard = ({ major, type }: { major: BackendMajor; type: "TOP" | "ELI
   }
 
   return (
-    <div className={`p-6 border-2 rounded-3xl ${cardClasses} transition-all duration-150 flex flex-col justify-between relative overflow-hidden`}>
+    <div onClick={onClick} className={`p-6 border-2 rounded-3xl ${cardClasses} hover:-translate-y-1 transition-all duration-150 flex flex-col justify-between relative overflow-hidden cursor-pointer`}>
       <div>
         <div className="flex justify-between items-start mb-4">
           <span className={`text-[10px] font-black px-3 py-1 uppercase tracking-widest rounded-full border ${
@@ -157,6 +244,7 @@ export default function MajorTest() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [backendResults, setBackendResults] = useState<MatchmakingResults | null>(null);
+  const [selectedMajor, setSelectedMajor] = useState<BackendMajor | null>(null);
 
   const handleQuizComplete = async (scores: NonNullable<typeof quizScores>) => {
     setQuizScores(scores);
@@ -464,7 +552,7 @@ export default function MajorTest() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {resultsToDisplay.topMatches.map((major) => (
-                  <DuolingoCard key={major.majorCode} major={major} type="TOP" />
+                  <DuolingoCard key={major.majorCode} major={major} type="TOP" onClick={() => setSelectedMajor(major)} />
                 ))}
               </div>
             </div>
@@ -478,7 +566,7 @@ export default function MajorTest() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {resultsToDisplay.otherEligible.map((major) => (
-                  <DuolingoCard key={major.majorCode} major={major} type="ELIGIBLE" />
+                  <DuolingoCard key={major.majorCode} major={major} type="ELIGIBLE" onClick={() => setSelectedMajor(major)} />
                 ))}
               </div>
             </div>
@@ -492,7 +580,7 @@ export default function MajorTest() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {resultsToDisplay.ineligible.map((major) => (
-                  <DuolingoCard key={major.majorCode} major={major} type="LOCKED" />
+                  <DuolingoCard key={major.majorCode} major={major} type="LOCKED" onClick={() => setSelectedMajor(major)} />
                 ))}
               </div>
             </div>
@@ -516,7 +604,14 @@ export default function MajorTest() {
           </div>
 
         </div>
-      </div>
+      
+          {selectedMajor && (
+            <MajorDetailsHub
+              major={selectedMajor}
+              onClose={() => setSelectedMajor(null)}
+            />
+          )}
+</div>
     );
   }
 

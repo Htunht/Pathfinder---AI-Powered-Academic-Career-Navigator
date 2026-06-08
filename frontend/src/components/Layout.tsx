@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router";
-import { GraduationCap, Compass, Briefcase, BookOpen, ClipboardList, Menu, X, ArrowRight, LogOut, History } from "lucide-react";
+import { GraduationCap, Briefcase, ClipboardList, Menu, X, ArrowRight, LogOut, History, Users, Compass } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 
@@ -38,7 +38,7 @@ export default function Layout() {
     ...(user ? [{ name: "မေဂျာ ဉာဏ်စမ်း", path: "/major-test", icon: ClipboardList }] : []),
     { name: "မေဂျာများ", path: "/major", icon: GraduationCap },
     { name: "အလုပ်အကိုင်", path: "/career", icon: Briefcase },
-    { name: "အရင်းအမြစ်များ", path: "/resources", icon: BookOpen },
+    { name: "Mentorship Hub", path: "/mentorship", icon: Users },
   ];
 
   return (
@@ -48,11 +48,11 @@ export default function Layout() {
         <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-green-500 text-white shadow-[0_3px_0_#15803d] transition-transform duration-300 group-hover:scale-105">
-              🚀
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-green-500 text-white shadow-[0_3px_0_#15803d] transition-all duration-300 group-hover:scale-105 group-hover:rotate-12">
+              <Compass className="size-5" strokeWidth={2.5} />
             </div>
             <span className="font-black text-xl tracking-tight text-slate-800">
-              Pathfinder
+              DU WAN KYAL
             </span>
           </Link>
 
@@ -235,9 +235,9 @@ export default function Layout() {
       <footer className="border-t-2 border-slate-100 bg-slate-50/50 py-8 mt-auto text-slate-500">
         <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <div className="flex items-center gap-2">
-            🚀
+            <Compass className="size-4 text-green-500" strokeWidth={2.5} />
             <p className="text-xs font-bold text-slate-400">
-              &copy; {new Date().getFullYear()} Pathfinder Academy. မူပိုင်ခွင့်အားလုံး ရရှိပြီးဖြစ်သည်။
+              &copy; {new Date().getFullYear()} DU WAN KYAL. မူပိုင်ခွင့်အားလုံး ရရှိပြီးဖြစ်သည်။
             </p>
           </div>
           <div className="flex items-center gap-4 text-xs font-bold text-slate-400">
@@ -247,7 +247,7 @@ export default function Layout() {
             <span>&bull;</span>
             <Link to="/career" className="hover:text-green-600 transition-colors">အလုပ်အကိုင် ရှာဖွေသူ</Link>
             <span>&bull;</span>
-            <Link to="/resources" className="hover:text-green-600 transition-colors">အရင်းအမြစ်များ</Link>
+            <Link to="/mentorship" className="hover:text-green-600 transition-colors">Mentorship Hub</Link>
           </div>
         </div>
       </footer>
